@@ -1,5 +1,7 @@
 'use client';
 
+import ExplainCard from './components/ExplainCard';
+import ProjectCard from './components/ProjectCard';
 import { projectMockDatas } from './mocks/data';
 
 export default function Home() {
@@ -36,7 +38,7 @@ export default function Home() {
           <div className='skeleton w-96 h-96'></div>
         </div>
       </div>
-      {/* <div className='grid lg:grid-cols-3 gap-8 md:grid-cols-2 grid-cols-1'>
+      <div className='grid lg:grid-cols-3 gap-8 md:grid-cols-2 grid-cols-1'>
         {explainData.map((mock, id) => (
           <ExplainCard
             key={id}
@@ -50,7 +52,7 @@ export default function Home() {
         {projectMockDatas.map((mock, id) => (
           <ProjectCard key={id} project={mock} />
         ))}
-      </div> */}
+      </div>
     </div>
   );
 }
