@@ -4,17 +4,9 @@ import { useState } from 'react';
 export default function ClaimsTab() {
   const networks = [
     {
-      name: 'Ethereum',
-      image: '/chains/ethereum.webp',
-    },
-    {
-      name: 'Solana',
-      image: '/chains/solana.png',
-    },
-    {
-      name: 'Arbitrum',
-      image: '/chains/arbitrum.png',
-    },
+      name: 'Edu',
+      image: '/svg/eduLogo.svg',
+    }
   ];
 
   const claimable = [
@@ -30,7 +22,7 @@ export default function ClaimsTab() {
   return (
     <div className='grid gap-8'>
       <div className='flex gap-4 items-center'>
-        <p>Select Network:</p>
+        <p>Network:</p>
         <div className='flex gap-4'>
           {networks.map((network, index) => (
             <div
