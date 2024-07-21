@@ -21,7 +21,7 @@ export default function Navbar() {
           </Link>
         </div>
         <div className='flex-none gap-2'>
-          <ConnectButton chainStatus="icon" accountStatus="address" />
+          <ConnectButton chainStatus="name" />
         </div>
       </div>
     </header>
