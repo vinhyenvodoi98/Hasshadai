@@ -16,14 +16,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body data-theme='dark'>
-        <Providers>
-          <Navbar/>
-          <main className='flex justify-center'>
-            <div className='container'>{children}</div>
-          </main>
-          <Footer/>
-        </Providers>
+      <body>
+        <div data-theme='dark'>
+          <Providers>
+            <Navbar/>
+            <main className='flex justify-center'>
+              <div className='container'>{children}</div>
+            </main>
+            <Footer/>
+          </Providers>
+        </div>
       </body>
     </html>
   );
