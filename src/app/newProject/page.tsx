@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from "react";
+import LearnTier from "../components/LearnTier";
 
 export default function NewProject() {
   const [mediaList, setMediaList] = useState([{
@@ -96,6 +97,13 @@ export default function NewProject() {
             <input type="text" placeholder="Start" className="input input-bordered w-full max-w" />
             <input type="text" placeholder="End" className="input input-bordered w-full max-w" />
           </div>
+        </label>
+
+        <label className="form-control w-full max-w">
+          <div className="label">
+            <span className="label-text">Learn Tier</span>
+          </div>
+          <LearnTier />
         </label>
 
         <div className='my-4'>
