@@ -21,7 +21,7 @@ export default function RootLayout({
           <Providers>
             <Navbar/>
             <main className='flex justify-center'>
-              <div className='container'>{children}</div>
+              <div className='container min-h-main'>{children}</div>
             </main>
             <Footer/>
           </Providers>

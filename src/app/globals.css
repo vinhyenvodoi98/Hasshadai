@@ -31,3 +31,9 @@ body {
     text-wrap: balance;
   }
 }
+
+@layer base {
+  .min-h-main {
+    @apply min-h-[calc(100vh-64px-344px)];
+  }
+}

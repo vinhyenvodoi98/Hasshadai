@@ -21,6 +21,9 @@ export default function Navbar() {
           </Link>
         </div>
         <div className='flex-none gap-2'>
+          <Link href='/newProject' className='btn btn-primary text-xl'>
+            Launch new Project
+          </Link>
           <ConnectButton chainStatus="name" />
         </div>
       </div>
