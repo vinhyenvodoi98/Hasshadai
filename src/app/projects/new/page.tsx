@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from "react";
-import LearnTier from "../components/LearnTier";
+import LearnTier from "../../components/LearnTier";
 
 export default function NewProject() {
   const [mediaList, setMediaList] = useState([{
