@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import LearnTier from "../../components/LearnTier";
+import UploadImage from "@/app/components/UploadImage";
+import CustomDatePicker from "@/app/components/CustomDatePicker";
 
 export default function NewProject() {
   const [mediaList, setMediaList] = useState([{
@@ -38,18 +40,8 @@ export default function NewProject() {
     <div>
       <h2 className='text-3xl my-8'>Launch new Project</h2>
       <div className='flex flex-col gap-4'>
-        <label className="form-control w-full max-w">
-          <div className="label">
-            <span className="label-text">Upload project avatar</span>
-          </div>
-          <input type="file" className="file-input file-input-bordered w-full max-w-xs" />
-        </label>
-        <label className="form-control w-full max-w">
-          <div className="label">
-            <span className="label-text">Upload project background</span>
-          </div>
-          <input type="file" className="file-input file-input-bordered w-full max-w-xs" />
-        </label>
+        <UploadImage title="Upload project avatar"/>
+        <UploadImage title="Upload project background"/>
         <label className="form-control w-full max-w">
           <div className="label">
             <span className="label-text">What is your project name?</span>
@@ -89,22 +81,23 @@ export default function NewProject() {
           </div>
         </label>
 
-        <label className="form-control w-full max-w">
+        <div className="form-control w-full">
           <div className="label">
             <span className="label-text">Select when IDO start-end?</span>
           </div>
           <div className="grid grid-cols-2 gap-10">
-            <input type="text" placeholder="Start" className="input input-bordered w-full max-w" />
-            <input type="text" placeholder="End" className="input input-bordered w-full max-w" />
+            <CustomDatePicker title="From"/>
+            <CustomDatePicker title="To"/>
           </div>
-        </label>
+        </div>
 
-        <label className="form-control w-full max-w">
+        <div>
           <div className="label">
             <span className="label-text">Learn Tier</span>
           </div>
           <LearnTier />
-        </label>
+        </div>
+
 
         <div className='my-4'>
           <button

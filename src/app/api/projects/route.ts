@@ -23,5 +23,4 @@ const POST = async (req: Request) => {
   }
 }
 
-
 export { POST }

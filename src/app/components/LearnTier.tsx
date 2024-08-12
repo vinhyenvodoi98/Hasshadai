@@ -76,7 +76,7 @@ export default function LearnTier() {
 
   return (
     <div>
-      <button className="btn" onClick={()=>handleOpenModal()}>Edit question</button>
+      <button className="btn w-60 btn-secondary" onClick={()=>handleOpenModal()}>Edit question</button>
       <dialog id="learn_tier" className="modal">
         <div className="modal-box w-11/12 max-w-5xl flex flex-col gap-4">
           <h3 className="font-bold text-lg">Questions</h3>

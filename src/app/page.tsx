@@ -35,7 +35,9 @@ export default function Home() {
           </p>
         </div>
         <div>
-          <div className='skeleton w-96 h-96'></div>
+          <div className='w-96 h-96'>
+            <img src='/images/landingpage-1.jpeg' className='rounded-3xl'/>
+          </div>
         </div>
       </div>
       <div className='grid lg:grid-cols-3 gap-8 md:grid-cols-2 grid-cols-1'>
