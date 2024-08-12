@@ -4,6 +4,7 @@ const nextConfig = {
     config.externals.push('pino-pretty', 'encoding', 'punycode' /* add any other modules that might be causing the error */);
     return config;
   },
+  reactStrictMode: false,
 };
 
 export default nextConfig;

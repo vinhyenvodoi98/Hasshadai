@@ -21,4 +21,22 @@ const POST = async (req: NextRequest) => {
   }
 }
 
-export { POST }
+const GET = async (req: NextRequest) => {
+  try {
+    const { db } = await connectToDatabase();
+    const { searchParams } = new URL(req.url);
+    const creator = searchParams.get('creator');
+    try {
+      const projectsCollection = db.collection('projects');
+      const result = await projectsCollection.find({creator}).toArray();
+      return NextResponse.json({ message: 'Get projects successfully', projects: result }, { status: 201 })
+    } catch (error) {
+      console.error('Error getting project:', error);
+      return NextResponse.json({ error: 'Failed to get project' }, { status: 500 })
+    }
+  } catch (err:any) {
+    return NextResponse.json({ message: err.message }, { status: 500 })
+  }
+}
+
+export { POST, GET }
