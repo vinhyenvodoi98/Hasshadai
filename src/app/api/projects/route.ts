@@ -1,18 +1,16 @@
 import { Project } from "@/interfaces/project";
 import { connectToDatabase } from "@/lib/mongo";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-const POST = async (req: Request) => {
+const POST = async (req: NextRequest) => {
   try {
     const { db } = await connectToDatabase();
 
     try {
-      const { name, description }  = await req.json()
-      if (!name || !description) {
-        return NextResponse.json({ error: 'Missing required fields: name, description' }, { status: 400 })
-      }
+      const data = await req.json()
+      // TODO validate data
       const projectsCollection = db.collection('projects');
-      const result = await projectsCollection.insertOne({ name, description } as Project);
+      const result = await projectsCollection.insertOne(data);
       return NextResponse.json({ message: 'Project added successfully', projectId: result.insertedId }, { status: 201 })
     } catch (error) {
       console.error('Error adding project:', error);

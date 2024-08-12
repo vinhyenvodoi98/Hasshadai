@@ -23,7 +23,7 @@ const POST = async (request: NextRequest) => {
       ContentType: 'image/png'
     });
 
-    return NextResponse.json({ message: 'File uploaded successfully', response });
+    return NextResponse.json({ message: 'File uploaded successfully', filename ,response });
   } catch (error) {
     return NextResponse.json({ message: 'Upload failed', error: (error as Error).message }, { status: 500 });
   }

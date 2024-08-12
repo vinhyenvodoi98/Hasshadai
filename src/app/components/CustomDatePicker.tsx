@@ -1,10 +1,15 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-export default function CustomDatePicker({title}: {title: string}) {
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
+interface CustomDatePickerInterface {
+  title: string;
+  date: Date
+  setDate: Dispatch<SetStateAction<Date>>
+}
+
+export default function CustomDatePicker({title, date, setDate}: CustomDatePickerInterface) {
 
   return (
     <div className="w-full">
@@ -12,8 +17,8 @@ export default function CustomDatePicker({title}: {title: string}) {
         <span className="label-text">{title}</span>
       </div>
       <DatePicker
-        selected={startDate}
-        onChange={(date) => setStartDate(date)}
+        selected={date}
+        onChange={(date) => date && setDate(date)}
         showTimeSelect
         timeInputLabel="Time:"
         dateFormat="MMMM d, yyyy h:mm aa"

@@ -4,13 +4,28 @@ import { useState } from "react";
 import LearnTier from "../../components/LearnTier";
 import UploadImage from "@/app/components/UploadImage";
 import CustomDatePicker from "@/app/components/CustomDatePicker";
+import { Contact, Project, Question } from "@/interfaces/project";
+import Contacts from "@/app/components/Contacts";
+import { useAccount } from "wagmi";
 
 export default function NewProject() {
-
+  const {address} = useAccount()
+  const [name, setName] = useState<string>("")
+  const [description, setDescription] = useState<string>("")
+  const [ownerAddress, setOwnerAddress] = useState<string>("")
+  const [tokenAddress, setTokenAddress] = useState<string>("")
+  const [startAt, setStartAt] = useState<Date>(new Date())
+  const [endAt, setEndAt] = useState<Date>(new Date())
   const [avatar, setAvatar] = useState<File | null>(null);
   const [background, setbBackground] = useState<File | null>(null);
+  const [questions, setQuestions] = useState<Question[]>([
+    {
+      question: '',
+      answers: [{ id: 1, text: '', isCorrect: false }],
+    },
+  ]);
 
-  const [mediaList, setMediaList] = useState([{
+  const [contactList, setContactList] = useState<Contact[]>([{
     optionId: 0,
     name: "discord",
     value: ""
@@ -20,39 +35,53 @@ export default function NewProject() {
     value: ""
   }]);
 
-  const addOption = () => {
-    setMediaList(mediaList => [...mediaList, {
-      optionId: mediaList.length,
-      name: "website",
-      value: ""
-    }]);
-  }
-
-  const removeOption = (id: number) => {
-    const z = mediaList.filter((z) => z.optionId !== id);
-    setMediaList(z);
-  }
-
-  const addOptionValue = (optionId: number, value: string) => {
-    const updatedOptions = mediaList.map((option) =>
-      option.optionId === optionId ? { ...option, value: value } : option
-    );
-    setMediaList(updatedOptions);
-  }
-
   const handleSubmit = async () => {
-    if (!avatar) return;
+    if (!avatar || !background) return;
 
-    const formData = new FormData();
-    formData.append('file', avatar);
+    const avatarFormData = new FormData();
+    avatarFormData.append('file', avatar);
 
-    const response = await fetch('/api/images', {
+    const avaResponse = await fetch('/api/images', {
       method: 'POST',
-      body: formData,
+      body: avatarFormData,
     });
 
-    const result = await response.json();
-    console.log(result);
+    const avaParser = await avaResponse.json();
+    const avatarId = avaParser.filename;
+
+    const bgFormData = new FormData();
+    bgFormData.append('file', background);
+
+    const bgResponse = await fetch('/api/images', {
+      method: 'POST',
+      body: bgFormData,
+    });
+
+    const bgParser = await bgResponse.json();
+    const bgId = bgParser.filename;
+
+    const createNewProject = await fetch('/api/projects', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        creator: address,
+        avatarId,
+        bgId,
+        name,
+        description,
+        ownerAddress,
+        tokenAddress,
+        learnTier: questions,
+        contacts: contactList,
+        startAt,
+        endAt
+      } as Project),
+    });
+
+    const result = await createNewProject.json();
+    console.log(result)
   };
 
   return (
@@ -65,48 +94,35 @@ export default function NewProject() {
           <div className="label">
             <span className="label-text">What is your project name?</span>
           </div>
-          <input type="text" placeholder="Type here" className="input input-bordered w-full max-w" />
-        </label>
-        <label className="form-control w-full max-w">
-          <div className="label">
-            <span className="label-text">What is your owner wallet address?</span>
-          </div>
-          <input type="text" placeholder="0x..." className="input input-bordered w-full max-w" />
+          <input onChange={(e)=> setName(e.target.value)} type="text" placeholder="Type here" className="input input-bordered w-full max-w" />
         </label>
         <label className="form-control w-full max-w">
           <div className="label">
             <span className="label-text">Describe your project?</span>
           </div>
-          <textarea className="textarea textarea-bordered h-24" placeholder="Describe your project"></textarea>
+          <textarea onChange={(e)=> setDescription(e.target.value)} className="textarea textarea-bordered h-24" placeholder="Describe your project"></textarea>
+        </label>
+        <label className="form-control w-full max-w">
+          <div className="label">
+            <span className="label-text">What is your owner wallet address?</span>
+          </div>
+          <input onChange={(e)=> setOwnerAddress(e.target.value)} type="text" placeholder="0x..." className="input input-bordered w-full max-w" />
         </label>
         <label className="form-control w-full max-w">
           <div className="label">
             <span className="label-text">What is your tokens (erc20) address?</span>
           </div>
-          <input type="text" placeholder="0x..." className="input input-bordered w-full max-w" />
+          <input onChange={(e)=> setTokenAddress(e.target.value)} type="text" placeholder="0x..." className="input input-bordered w-full max-w" />
         </label>
-        <label className="form-control w-full">
-          <div className="label">
-            <span className="label-text">Contacts</span>
-          </div>
-          <div className="flex gap-3 flex-col">
-            {mediaList.map((media) => (
-              <div key={media.optionId} className="flex gap-2">
-                <input onChange={(e) => addOptionValue(media.optionId, e.target.value)} type="text" placeholder={media.name} className="flex-auto w-fit input input-bordered" />
-                <button onClick={() => removeOption(media.optionId)} className="btn btn-outline btn-error w-12">x</button>
-              </div>
-            ))}
-            <div onClick={() => addOption()} className="border border-neutral-content border-dashed w-full font-bold text-xl place-items-center px-4 py-2 h-12 rounded-md cursor-pointer"> + </div>
-          </div>
-        </label>
+        <Contacts contactList={contactList} setContactList={setContactList}/>
 
         <div className="form-control w-full">
           <div className="label">
             <span className="label-text">Select when IDO start-end?</span>
           </div>
           <div className="grid grid-cols-2 gap-10">
-            <CustomDatePicker title="From"/>
-            <CustomDatePicker title="To"/>
+            <CustomDatePicker title="From" date={startAt} setDate={setStartAt}/>
+            <CustomDatePicker title="To" date={endAt} setDate={setEndAt}/>
           </div>
         </div>
 
@@ -114,9 +130,8 @@ export default function NewProject() {
           <div className="label">
             <span className="label-text">Learn Tier</span>
           </div>
-          <LearnTier />
+          <LearnTier questions={questions} setQuestions={setQuestions}/>
         </div>
-
 
         <div className='my-4'>
           <button

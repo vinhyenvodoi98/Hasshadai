@@ -1,29 +1,18 @@
-import { ChangeEvent, useState } from "react"
+import { Answer, Question } from "@/interfaces/project";
+import { ChangeEvent, Dispatch, SetStateAction } from "react"
 
-interface Answer {
-  id: number;
-  text: string;
-  isCorrect: boolean;
+interface LearnTierInterface {
+  questions: Question[]
+  setQuestions: Dispatch<SetStateAction<Question[]>>
+
 }
 
-interface Question {
-  question: string;
-  answers: Answer[];
-}
-
-export default function LearnTier() {
+export default function LearnTier({questions, setQuestions}:LearnTierInterface) {
   const handleOpenModal = () => {
     // eslint-disable-next-line
     // @ts-ignore
     document.getElementById('learn_tier').showModal()
   }
-
-  const [questions, setQuestions] = useState<Question[]>([
-    {
-      question: '',
-      answers: [{ id: 1, text: '', isCorrect: false }],
-    },
-  ]);
 
   const handleQuestionChange = (index: number, value: string) => {
     const newQuestions = [...questions];
