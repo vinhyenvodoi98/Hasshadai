@@ -1,7 +1,11 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-export default function UploadImage({title}: {title: string}) {
-  const [file, setFile] = useState<File | null>(null);
+interface FileInterface {
+  title: string
+  setFile: Dispatch<SetStateAction<File | null>>
+}
+
+export default function UploadImage({title, setFile}: FileInterface) {
   const [preview, setPreview] = useState<string | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -8,11 +8,11 @@ interface UploadParams {
 }
 
 const s3Client = new S3Client({
-  region: process.env.S2_REGION,
-  endpoint: process.env.S2_ENDPOINT,
+  region: process.env.S3_REGION,
+  endpoint: process.env.S3_ENDPOINT,
   credentials: {
-    accessKeyId: process.env.S2_ACCESS_KEY as string,
-    secretAccessKey: process.env.S2_SECRET_KEY as string,
+    accessKeyId: process.env.S3_KEY_ID as string,
+    secretAccessKey: process.env.S3_SECRET as string,
   },
 });
 

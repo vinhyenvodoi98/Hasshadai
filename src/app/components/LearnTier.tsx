@@ -114,7 +114,6 @@ export default function LearnTier() {
                       }
                     />
                     <input type="checkbox" checked={a.isCorrect}
-                      defaultChecked
                       className="checkbox checkbox-success"
                       onChange={(e: ChangeEvent<HTMLInputElement>) =>
                         handleAnswerChange(questionIndex, answerIndex, 'isCorrect', e.target.checked)

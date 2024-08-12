@@ -6,6 +6,10 @@ import UploadImage from "@/app/components/UploadImage";
 import CustomDatePicker from "@/app/components/CustomDatePicker";
 
 export default function NewProject() {
+
+  const [avatar, setAvatar] = useState<File | null>(null);
+  const [background, setbBackground] = useState<File | null>(null);
+
   const [mediaList, setMediaList] = useState([{
     optionId: 0,
     name: "discord",
@@ -36,12 +40,27 @@ export default function NewProject() {
     setMediaList(updatedOptions);
   }
 
+  const handleSubmit = async () => {
+    if (!avatar) return;
+
+    const formData = new FormData();
+    formData.append('file', avatar);
+
+    const response = await fetch('/api/images', {
+      method: 'POST',
+      body: formData,
+    });
+
+    const result = await response.json();
+    console.log(result);
+  };
+
   return (
     <div>
       <h2 className='text-3xl my-8'>Launch new Project</h2>
       <div className='flex flex-col gap-4'>
-        <UploadImage title="Upload project avatar"/>
-        <UploadImage title="Upload project background"/>
+        <UploadImage title="Upload project avatar" setFile={setAvatar}/>
+        <UploadImage title="Upload project background" setFile={setbBackground}/>
         <label className="form-control w-full max-w">
           <div className="label">
             <span className="label-text">What is your project name?</span>
@@ -101,7 +120,7 @@ export default function NewProject() {
 
         <div className='my-4'>
           <button
-              onClick={() => console.log('test')}
+              onClick={() => handleSubmit()}
               className='btn btn-primary w-40'
             >
               Submit
