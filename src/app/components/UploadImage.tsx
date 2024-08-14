@@ -1,17 +1,20 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface FileInterface {
+  initialData?: string
   title: string
   setFile: Dispatch<SetStateAction<File | null>>
 }
 
-export default function UploadImage({title, setFile}: FileInterface) {
+export default function UploadImage({initialData, title, setFile}: FileInterface) {
+  const [initImage, setinitImage] = useState<string | null>(initialData || null)
   const [preview, setPreview] = useState<string | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
     if (selectedFile) {
       setFile(selectedFile);
+      setinitImage(null)
 
       // Create a preview URL for the selected file
       const previewUrl = URL.createObjectURL(selectedFile);
@@ -35,7 +38,8 @@ export default function UploadImage({title, setFile}: FileInterface) {
         </div>
         <input type="file" className="file-input file-input-bordered w-full max-w-xs" onChange={handleFileChange}/>
       </label>
-      {preview && <img src={preview} alt="Image Preview" className="w-32 h-32 object-contain rounded-lg" />}
+      {initImage ? <img src={`${process.env.NEXT_PUBLIC_CDN_HOST}/${initImage}`} alt="Image Preview" className="w-32 h-32 object-contain rounded-lg"/> :
+        (preview) && <img src={preview} alt="Image Preview" className="w-32 h-32 object-contain rounded-lg" />}
     </div>
   );
 }

@@ -31,9 +31,10 @@ export default function Profile() {
       <p className='text-2xl'>
         Your Projects
       </p>
-      <div className='grid grid-cols-4 mt-8'>
+      <div className='grid grid-cols-4 mt-8 gap-8'>
+        {loading && <div className='card w-full shadow-xl h-96 p-2 cursor-pointer skeleton'/>}
         {projects && projects.map((project: any) => (
-          <SimpleProjectCard project={project}/>
+          <SimpleProjectCard key={project._id} project={project}/>
         ))}
       </div>
     </div>

@@ -40,7 +40,7 @@ export default function Contacts({
       <div className="flex gap-3 flex-col">
         {contactList.map((media) => (
           <div key={media.optionId} className="flex gap-2">
-            <input onChange={(e) => addOptionValue(media.optionId, e.target.value)} type="text" placeholder={media.name} className="flex-auto w-fit input input-bordered" />
+            <input value={media.value} onChange={(e) => addOptionValue(media.optionId, e.target.value)} type="text" placeholder={media.name} className="flex-auto w-fit input input-bordered" />
             <button onClick={() => removeOption(media.optionId)} className="btn btn-outline btn-error w-12">x</button>
           </div>
         ))}
