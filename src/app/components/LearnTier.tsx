@@ -1,29 +1,18 @@
-import { ChangeEvent, useState } from "react"
+import { Answer, Question } from "@/interfaces/project";
+import { ChangeEvent, Dispatch, SetStateAction } from "react"
 
-interface Answer {
-  id: number;
-  text: string;
-  isCorrect: boolean;
+interface LearnTierInterface {
+  questions: Question[]
+  setQuestions: Dispatch<SetStateAction<Question[]>>
+
 }
 
-interface Question {
-  question: string;
-  answers: Answer[];
-}
-
-export default function LearnTier() {
+export default function LearnTier({questions, setQuestions}:LearnTierInterface) {
   const handleOpenModal = () => {
     // eslint-disable-next-line
     // @ts-ignore
     document.getElementById('learn_tier').showModal()
   }
-
-  const [questions, setQuestions] = useState<Question[]>([
-    {
-      question: '',
-      answers: [{ id: 1, text: '', isCorrect: false }],
-    },
-  ]);
 
   const handleQuestionChange = (index: number, value: string) => {
     const newQuestions = [...questions];
@@ -76,7 +65,7 @@ export default function LearnTier() {
 
   return (
     <div>
-      <button className="btn" onClick={()=>handleOpenModal()}>Edit question</button>
+      <button className="btn w-60 btn-secondary" onClick={()=>handleOpenModal()}>Edit question</button>
       <dialog id="learn_tier" className="modal">
         <div className="modal-box w-11/12 max-w-5xl flex flex-col gap-4">
           <h3 className="font-bold text-lg">Questions</h3>
@@ -114,7 +103,6 @@ export default function LearnTier() {
                       }
                     />
                     <input type="checkbox" checked={a.isCorrect}
-                      defaultChecked
                       className="checkbox checkbox-success"
                       onChange={(e: ChangeEvent<HTMLInputElement>) =>
                         handleAnswerChange(questionIndex, answerIndex, 'isCorrect', e.target.checked)
