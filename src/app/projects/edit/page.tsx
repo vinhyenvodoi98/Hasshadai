@@ -16,7 +16,6 @@ export default function EditProject() {
         const response = await fetch(`/api/projects?id=${id}`);
         const data = await response.json();
         setProject(data.project);
-        console.log(data)
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -28,8 +27,8 @@ export default function EditProject() {
   }, [id])
 
   const handleSubmit = async (project: Project) => {
-    const createNewProject = await fetch('/api/projects', {
-      method: 'POST',
+    const createNewProject = await fetch(`/api/projects?id=${id}`, {
+      method: 'PUT',
       headers: {
         "Content-Type": "application/json",
       },

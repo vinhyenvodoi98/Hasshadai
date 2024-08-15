@@ -52,4 +52,31 @@ const GET = async (req: NextRequest) => {
   }
 }
 
-export { POST, GET }
+const PUT = async (req: NextRequest) => {
+  try {
+    const { db } = await connectToDatabase();
+    const { searchParams } = new URL(req.url);
+
+    const id = searchParams.get('id');
+    const projectsCollection = db.collection('projects');
+    const data = await req.json()
+    try {
+      if (id) {
+        const result = await projectsCollection.findOneAndUpdate({_id: new ObjectId(id)}, {$set: data});
+        if (result && result.matchedCount === 0) {
+          return NextResponse.json({ error: 'No document found with the provided ID' }, { status: 404 })
+        } else {
+            return NextResponse.json({ message: 'Document updated successfully' }, { status: 200 })
+        }
+      } else {
+        return NextResponse.json({ message: 'Invalid query parameters' }, { status: 400 })
+      }
+    } catch (error) {
+      console.log(error)
+      return NextResponse.json({ error: 'Failed to update project' }, { status: 500 })
+    }
+  } catch (err:any) {
+    return NextResponse.json({ message: err.message }, { status: 500 })
+  }
+}
+export { POST, GET, PUT }

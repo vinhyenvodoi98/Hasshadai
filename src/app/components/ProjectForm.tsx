@@ -50,34 +50,35 @@ export default function ProjectForm({ initialData, handleSubmit }: ProjectFormIn
   }]);
 
   const onSubmit = async () => {
-    if (!avatar || !background) return;
+    var avatarId, bgId
+    if (!(!avatar || !background )) {
+      const avatarFormData = new FormData();
+      avatarFormData.append('file', avatar);
 
-    const avatarFormData = new FormData();
-    avatarFormData.append('file', avatar);
+      const avaResponse = await fetch('/api/images', {
+        method: 'POST',
+        body: avatarFormData,
+      });
 
-    const avaResponse = await fetch('/api/images', {
-      method: 'POST',
-      body: avatarFormData,
-    });
+      const avaParser = await avaResponse.json();
+      avatarId = avaParser.filename;
 
-    const avaParser = await avaResponse.json();
-    const avatarId = avaParser.filename;
+      const bgFormData = new FormData();
+      bgFormData.append('file', background);
 
-    const bgFormData = new FormData();
-    bgFormData.append('file', background);
+      const bgResponse = await fetch('/api/images', {
+        method: 'POST',
+        body: bgFormData,
+      });
 
-    const bgResponse = await fetch('/api/images', {
-      method: 'POST',
-      body: bgFormData,
-    });
-
-    const bgParser = await bgResponse.json();
-    const bgId = bgParser.filename;
+      const bgParser = await bgResponse.json();
+      bgId = bgParser.filename;
+    }
 
     handleSubmit({
       creator: address,
-      avatarId,
-      bgId,
+      avatarId: avatarId || initialData?.avatarId,
+      bgId: bgId || initialData?.bgId,
       name,
       description,
       ownerAddress,
