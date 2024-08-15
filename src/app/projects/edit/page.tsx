@@ -10,6 +10,7 @@ export default function EditProject() {
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const id = searchParams.get('id')
+
   useEffect(() => {
     const fetchData = async () => {
       try {
