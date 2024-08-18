@@ -2,10 +2,29 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+import { useOCAuth } from "@opencampus/ocid-connect-js";
+import { jwtDecode } from "jwt-decode";
+import LoginButton from './LoginButton';
+
+interface DecodedToken {
+  edu_username: string;
+  [key: string]: any;
+}
+
 
 const Wallet = () => {
+  const { authState } = useOCAuth();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<any>(null);
+  const [ocidUsername, setOcidUsername] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Check if user is logged in with OCID
+    if (authState.idToken) {
+      const decodedToken = jwtDecode<DecodedToken>(authState.idToken);
+      setOcidUsername(decodedToken.edu_username);
+    }
+  }, [authState.idToken]);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -68,7 +87,7 @@ const Wallet = () => {
                     <button
                       onClick={openConnectModal}
                       type='button'
-                      className='btn px-4 py-2 border border-gray-300 rounded-xl shadow-sm'
+                      className='btn px-4 py-2 border bg-black text-white rounded-xl shadow-sm'
                     >
                       Connect Wallet
                     </button>
@@ -80,7 +99,7 @@ const Wallet = () => {
                     <button
                       onClick={openChainModal}
                       type='button'
-                      className='btn px-4 py-2 border border-gray-300 rounded-xl shadow-sm'
+                      className='btn px-4 py-2 border bg-black text-white border-gray-300 rounded-xl shadow-sm'
                     >
                       Wrong network
                     </button>
@@ -89,39 +108,16 @@ const Wallet = () => {
 
                 return (
                   <div style={{ display: 'flex', gap: 12 }}>
-                    <button
-                      onClick={openChainModal}
-                      style={{ display: 'flex', alignItems: 'center' }}
-                      type='button'
-                      className='btn px-4 border border-gray-300 rounded-xl shadow-sm'
-                    >
-                      {chain.hasIcon && (
-                        <div
-                          style={{
-                            background: chain.iconBackground,
-                            width: 20,
-                            height: 20,
-                            borderRadius: 999,
-                            overflow: 'hidden',
-                            marginRight: 4,
-                          }}
-                        >
-                          {chain.iconUrl && (
-                            <img
-                              alt={chain.name ?? 'Chain icon'}
-                              src={chain.iconUrl}
-                              style={{ width: 20, height: 20 }}
-                            />
-                          )}
-                        </div>
-                      )}
-                      {chain.name}
-                    </button>
+                    {!ocidUsername ? <LoginButton /> :
+                      <div className="bg-black text-xl px-4 py-2 text-white rounded-xl border border-gray-300 pr-4">
+                        {ocidUsername}
+                      </div>
+                    }
                     <div className='relative' ref={dropdownRef}>
                       <button
                         onClick={toggleDropdown}
                         type='button'
-                        className='btn inline-flex items-center px-4 py-2 border border-gray-300 rounded-xl shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50'
+                        className='btn inline-flex items-center px-4 py-2 border bg-black text-white rounded-xl border-gray-300 shadow-sm text-xl font-medium hover:bg-black-50'
                         id='dropdown-menu-button'
                         aria-expanded={isOpen ? 'true' : 'false'}
                         aria-haspopup='true'
