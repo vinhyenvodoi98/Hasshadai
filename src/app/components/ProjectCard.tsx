@@ -3,24 +3,10 @@ import { format } from 'date-fns';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { addCommas } from '../utils/format';
+import { Project } from '@/interfaces/project';
 
 interface ProjectCardInterface {
-  project: {
-    id: string;
-    name: string;
-    image: string;
-    type: string;
-    status: string;
-    descriptions: string;
-    targetRaise: number;
-    raiseUnit: {
-      name: string;
-      image: string;
-    };
-    tokenPrice: string;
-    registerPeriodFrom: number;
-    registerPeriodTo: number;
-  };
+  project: Project;
 }
 
 const CountDown = dynamic(() => import('@/app/components/Countdown'), {
@@ -30,16 +16,16 @@ const CountDown = dynamic(() => import('@/app/components/Countdown'), {
 export default function ProjectCard({ project }: ProjectCardInterface) {
   return (
     <div className='card w-full bg-base-200 shadow-xl p-2 cursor-pointer'>
-      <Link href={`/ido/${project.id}`}>
+      <Link href={`/ido/${project._id}`}>
         <div className='g grid grid-cols-3 gap-4'>
           <Image
-            src={project.image}
+            src={`${process.env.NEXT_PUBLIC_CDN_HOST}/${project.avatarId}`}
             height={128}
             width={128}
             alt='project image'
           />
           <div className='col-span-2 flex flex-col justify-end h-full'>
-            {project.status === 'UPCOMING' ? (
+            {project.startAt > new Date() ? (
               <div className='badge badge-outline badge-primary h-8 rounded-md border-2 font-bold bg-primary/10'>
                 UPCOMING
               </div>
@@ -55,47 +41,47 @@ export default function ProjectCard({ project }: ProjectCardInterface) {
             {project.name}
           </h2>
           <p className='text-pretty text-sm h-20 overflow-y-scroll'>
-            {project.descriptions}
+            {project.description}
           </p>
           <div className='flex justify-between py-5 px-2 bg-base-200 items-center'>
             <h3 className='text-sm text-neutral-100'>Targeted Raise</h3>
             <div className='flex gap-2'>
               <Image
                 style={{ borderRadius: '50%' }}
-                src={project.raiseUnit.image}
+                src={"/tokens/usdt.png"}
                 height={32}
                 width={32}
                 alt='raise token'
               />
               <h2 className='ordinal text-2xl slashed-zero tabular-nums text-neutral-100'>
-                {addCommas(project.targetRaise)}
+                {addCommas(300000)}
               </h2>
               <h2 className='text-2xl text-neutral-100'>
-                {project.raiseUnit.name}
+                USDT
               </h2>
             </div>
           </div>
           <div className='flex justify-between'>
             <div>
               <h3 className='text-sm'>TOKEN PRICE</h3>
-              <h2 className='text-lg text-neutral-100'>{project.tokenPrice}</h2>
+              <h2 className='text-lg text-neutral-100'>0.11</h2>
             </div>
             <div>
               <h3 className='text-sm'>TYPE</h3>
-              <h2 className='text-lg text-neutral-100'>{project.type}</h2>
+              <h2 className='text-lg text-neutral-100'>Public</h2>
             </div>
           </div>
           <div>
             <h3 className='text-sm'>REGISTER PERIOD (FROM)</h3>
             <h2 className='text-lg text-neutral-100'>
-              {format(new Date(project.registerPeriodFrom), 'dd.MM.yyy HH:MM')}{' '}
+              {format(new Date(project.startAt), 'dd.MM.yyy HH:MM')}{' '}
               UTC
             </h2>
           </div>
           <div>
             <h3 className='text-sm'>REGISTER PERIOD (T0)</h3>
             <h2 className='text-lg text-neutral-100'>
-              {format(new Date(project.registerPeriodTo), 'dd.MM.yyy HH:MM')}{' '}
+              {format(new Date(project.endAt), 'dd.MM.yyy HH:MM')}{' '}
               UTC
             </h2>
           </div>
@@ -109,7 +95,7 @@ export default function ProjectCard({ project }: ProjectCardInterface) {
           Register
         </button>
       </div>
-      <CountDown endTimestamp={project.registerPeriodTo} type='right' />
+      <CountDown endTimestamp={new Date(project.endAt).getTime()} type='right' />
     </div>
   );
 }
