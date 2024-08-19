@@ -4,26 +4,42 @@ import Link from 'next/link';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { format } from 'date-fns';
+import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+import { Project } from '@/interfaces/project';
 
 const CountDown = dynamic(() => import('@/app/components/Countdown'), {
   ssr: false,
 });
 
 export default function IDODetails() {
+  const {id} = useParams<{ id: string}>()
+
+  const [project, setProject] = useState<Project | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`/api/projects?id=${id}`);
+        const data = await response.json();
+        setProject(data.project);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if(id) fetchData();
+  }, [id])
+
   return (
     <div>
       <div className='grid grid-cols-1 lg:grid-cols-2 gap-16'>
         <div className='flex flex-col justify-center gap-8'>
-          <h1 className='text-4xl text-white'>Ordify (Public)</h1>
-          <p className='text-justify'>
-            Ordify is a Suite of products, carefully tailored to enhance your
-            investment experience across diverse chains Ordify serves as the
-            gateway between the Bitcoin world and the EVM world with its
-            products set to improve the user’s experience, enhance portfolio
-            with early access to projects launching on any bitcoin chain, or EVM
-            chains, and easy float with its high security bridge from Bitcoin to
-            EVM chains. Ordify achieves this by leveraging Off and on chain
-            technology.
+          <h1 className={`text-4xl text-white ${loading && 'skeleton w-36 h-10'}`}>{project?.name}</h1>
+          <p className={`text-justify h-64 ${loading && 'skeleton'}`}>
+            {project?.description}
           </p>
           <div className='flex gap-4'>
             <Link
@@ -131,21 +147,46 @@ export default function IDODetails() {
               </div>
               <div className='flex justify-between'>
                 <button className='btn btn-primary w-40'>Approve</button>
-                <div>
-                  <p>Starts in</p>
-                  <CountDown endTimestamp={1711497199000} type='colons' />
-                </div>
+                {loading ?
+                  <div className='w-20 h-8 skeleton'></div>
+                 : new Date(project?.startAt as any).getTime() < new Date().getTime() ?
+                  <div>
+                    <p>End in</p>
+                      <CountDown endTimestamp={new Date(project?.endAt as any).getTime()} type='colons' />
+                  </div>:
+                  <div>
+                    <p>Starts in</p>
+                    <CountDown endTimestamp={new Date(project?.startAt as any).getTime()} type='colons' />
+                  </div>
+                }
               </div>
             </div>
           </div>
           <div className='grid gap-4 rounded-lg bg-base-200 p-8'>
-            <div className='font-bold'>
-              <p className='text-sm'>REGISTRATION STARTS IN</p>
-              <p className='text-xl text-white'>
-                {format(new Date(1711397199000), 'dd.MM.yyy HH:MM')} UTC
-              </p>
-            </div>
-            <CountDown endTimestamp={1711397199000} type='next' />
+            {loading ?
+              <div className='w-20 h-8 skeleton'></div>
+              : new Date(project?.startAt as any).getTime() < new Date().getTime() ?
+                <div className='font-bold'>
+                  <p className='text-sm'>REGISTRATION END AT</p>
+                  <p className='text-xl text-white'>
+                    {format(new Date(project?.endAt as any).getTime(), 'dd.MM.yyy HH:MM')} UTC
+                  </p>
+                </div>
+              :
+              <div className='font-bold'>
+                <p className='text-sm'>REGISTRATION START AT</p>
+                <p className='text-xl text-white'>
+                  {format(new Date(project?.startAt as any).getTime(), 'dd.MM.yyy HH:MM')} UTC
+                </p>
+              </div>
+            }
+            {loading ?
+              <div className='w-full h-20 skeleton'></div>
+              : new Date(project?.startAt as any).getTime() < new Date().getTime() ?
+              <CountDown endTimestamp={new Date(project?.endAt as any).getTime()} type='next' />
+              :
+              <CountDown endTimestamp={new Date(project?.startAt as any).getTime()} type='next' />
+            }
             <button className='btn w-full' disabled={true}>
               Coming Soon
             </button>
