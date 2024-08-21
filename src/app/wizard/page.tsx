@@ -212,21 +212,21 @@ const Wizard: FC = () => {
 
 			<div className="flex flex-col md:flex-row">
 				{/* Sidebar */}
-				<div className={`${tab === 'ERC20' ? 'block' : 'hidden'}`}>
+				{
+					tab === 'ERC20' ?
 					<ERC20Controls opts={allOpts.ERC20} setAllOpts={setAllOpts} />
-				</div>
-				<div className={`${tab === 'ERC721' ? 'block' : 'hidden'}`}>
+					:
+					tab === 'ERC721' ?
 					<ERC721Controls opts={allOpts.ERC721} setAllOpts={setAllOpts} />
-				</div>
-				<div className={`${tab === 'ERC1155' ? 'block' : 'hidden'}`}>
+					:
+					tab === 'ERC1155' ?
 					<ERC1155Controls opts={allOpts.ERC1155} setAllOpts={setAllOpts} />
-				</div>
-				<div className={`${tab === 'Custom' ? 'block' : 'hidden'}`}>
+					:
 					<CustomControls opts={allOpts.Custom} setAllOpts={setAllOpts} />
-				</div>
+				}
 
 				{/* Code Editor */}
-				<div className="bg-base-100 p-4 rounded-lg shadow-md w-full md:w-3/4 mt-4 md:mt-0 md:ml-4">
+				<div className="bg-base-100 p-4 rounded-lg shadow-md w-full md:w-3/4 mt-4 md:mt-0 md:ml-4 flex flex-col">
 					<div className="flex justify-between items-center mb-4">
 						<h2 className="text-xl font-bold">Code</h2>
 						{/* <button className="btn btn-primary">Deploy with Defender</button> */}
@@ -234,7 +234,7 @@ const Wizard: FC = () => {
 							{copied ? 'Copied' : 'Copy to Clipboard'}
 						</button>
 					</div>
-					<div className="output flex flex-col grow overflow-auto h-[calc(100vh-84px)]">
+					<div className="output flex flex-col grow overflow-auto flex-1">
 						<pre className="flex flex-col grow basis-0 overflow-auto">
 							<code
 								className="hljs grow overflow-auto p-4"

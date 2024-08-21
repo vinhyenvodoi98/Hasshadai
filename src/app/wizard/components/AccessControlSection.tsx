@@ -35,7 +35,7 @@ export default function AccessControlSection({
 	}, [access, required]);
 
 	return (
-		<section className="controls-section p-2 rounded-lg bg-base-100">
+		<div className="controls-section p-2 rounded-lg bg-base-100">
 			<h1 className="text-2xl font-bold mb-1">
 				<label className="flex items-center">
 					<span>Access Control</span>
@@ -56,9 +56,7 @@ export default function AccessControlSection({
 
 			<div className="form-control space-y-2">
 				<label
-					className={`flex cursor-pointer space-x-2 items-center ${
-						access === 'ownable' ? 'checked' : ''
-					}`}
+					className="flex cursor-pointer space-x-2 items-center"
 				>
 					<input
 						type="radio"
@@ -76,7 +74,7 @@ export default function AccessControlSection({
 					</HelpTooltip>
 				</label>
 				<label
-					className={`flex cursor-pointer space-x-2 items-center ${access === 'roles' ? 'checked' : ''}`}
+					className="flex cursor-pointer space-x-2 items-center"
 				>
 					<input
 						type="radio"
@@ -94,7 +92,7 @@ export default function AccessControlSection({
 					</HelpTooltip>
 				</label>
 				<label
-					className={`flex cursor-pointer space-x-2 items-center ${access === 'managed' ? 'checked' : ''}`}
+					className="flex cursor-pointer space-x-2 items-center"
 				>
 					<input
 						type="radio"
@@ -112,6 +110,6 @@ export default function AccessControlSection({
 					</HelpTooltip>
 				</label>
 			</div>
-		</section>
+		</div>
 	);
 }
