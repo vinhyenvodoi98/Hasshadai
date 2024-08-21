@@ -27,6 +27,7 @@ import ERC20Controls from './components/ERC20Controls';
 import defaultAllOpts from '../utils/default-options';
 import ERC1155Controls from './components/ERC1155Controls';
 import ERC721Controls from './components/ERC721Controls';
+import CustomControls from './components/Custom';
 
 export let initialTab: string | undefined = 'ERC20';
 const language = 'solidity';
@@ -219,6 +220,9 @@ const Wizard: FC = () => {
 				</div>
 				<div className={`${tab === 'ERC1155' ? 'block' : 'hidden'}`}>
 					<ERC1155Controls opts={allOpts.ERC1155} setAllOpts={setAllOpts} />
+				</div>
+				<div className={`${tab === 'Custom' ? 'block' : 'hidden'}`}>
+					<CustomControls opts={allOpts.Custom} setAllOpts={setAllOpts} />
 				</div>
 
 				{/* Code Editor */}
