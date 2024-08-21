@@ -27,7 +27,7 @@ import ERC20Controls from './components/ERC20Controls';
 import defaultAllOpts from '../utils/default-options';
 import ERC1155Controls from './components/ERC1155Controls';
 import ERC721Controls from './components/ERC721Controls';
-import CustomControls from './components/Custom';
+import CustomControls from './components/CustomControls';
 
 export let initialTab: string | undefined = 'ERC20';
 const language = 'solidity';
