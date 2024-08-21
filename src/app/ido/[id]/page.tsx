@@ -209,7 +209,7 @@ export default function IDODetails() {
             <div className='divider'></div>
             <div className='flex justify-between'>
               <p>NETWORK</p>
-              <p className='text-white'>SOLANA</p>
+              <p className='text-white'>EDU Chain</p>
             </div>
             <div className='divider'></div>
             <div className='flex justify-between'>
