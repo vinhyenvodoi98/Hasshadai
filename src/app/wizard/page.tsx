@@ -28,6 +28,7 @@ import defaultAllOpts from '../utils/default-options';
 import ERC1155Controls from './components/ERC1155Controls';
 import ERC721Controls from './components/ERC721Controls';
 import CustomControls from './components/CustomControls';
+import GovernorControls from './components/GovernorControls';
 
 export let initialTab: string | undefined = 'ERC20';
 const language = 'solidity';
@@ -212,18 +213,17 @@ const Wizard: FC = () => {
 
 			<div className="flex flex-col md:flex-row">
 				{/* Sidebar */}
-				{
-					tab === 'ERC20' ?
+				{tab === 'ERC20' ? (
 					<ERC20Controls opts={allOpts.ERC20} setAllOpts={setAllOpts} />
-					:
-					tab === 'ERC721' ?
+				) : tab === 'ERC721' ? (
 					<ERC721Controls opts={allOpts.ERC721} setAllOpts={setAllOpts} />
-					:
-					tab === 'ERC1155' ?
+				) : tab === 'ERC1155' ? (
 					<ERC1155Controls opts={allOpts.ERC1155} setAllOpts={setAllOpts} />
-					:
+				) : tab === 'Governor' ? (
+					<GovernorControls opts={allOpts.Governor} setAllOpts={setAllOpts} errors={errors.Governor}/>
+				) : (
 					<CustomControls opts={allOpts.Custom} setAllOpts={setAllOpts} />
-				}
+				)}
 
 				{/* Code Editor */}
 				<div className="bg-base-100 p-4 rounded-lg shadow-md w-full md:w-3/4 mt-4 md:mt-0 md:ml-4 flex flex-col">
