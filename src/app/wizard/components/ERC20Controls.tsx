@@ -75,7 +75,9 @@ export default function ERC20Controls({
 				<div className="form-control mt-1">
 					<label className="px-0 label flex ">
 						<span className="label-text">Premint</span>
-						<HelpTooltip children="Create an initial amount of tokens for the deployer." />
+						<HelpTooltip>
+							Create an initial amount of tokens for the deployer.
+						</HelpTooltip>
 					</label>
 					<input
 						type="text"
@@ -143,7 +145,7 @@ export default function ERC20Controls({
 								className="checkbox"
 							/>
 							<span className="label-text flex-grow">{label}</span>
-							<HelpTooltip children={helpText} link={link} />
+							<HelpTooltip link={link}>{helpText}</HelpTooltip>
 						</label>
 					))}
 				</div>

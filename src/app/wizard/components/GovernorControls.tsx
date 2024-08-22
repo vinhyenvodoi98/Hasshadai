@@ -353,9 +353,9 @@ export default function GovernorControls({
 						/>
 						<span className="label-text flex-grow">TimelockController</span>
 						<HelpTooltip link="https://docs.openzeppelin.com/contracts/api/governance#GovernorTimelockControl">
-							Module compatible with OpenZeppelin's{' '}
-							<code>TimelockController</code>. Allows multiple proposers and
-							executors, in addition to the Governor itself.
+							{
+								"Module compatible with OpenZeppelin's TimelockController. Allows multiple proposers and executors, in addition to the Governor itself."
+							}
 						</HelpTooltip>
 					</label>
 					<label className="flex items-center space-x-2 cursor-pointer">
@@ -368,8 +368,9 @@ export default function GovernorControls({
 						/>
 						<span className="label-text flex-grow">Compound</span>
 						<HelpTooltip link="https://github.com/compound-finance/compound-protocol/blob/master/contracts/Timelock.sol">
-							Module compatible with Compound's <code>Timelock</code> contract.
-							Useful if assets and roles are already held in this contract.
+							{
+								"Module compatible with Compound's Timelock contract. Useful if assets and roles are already held in this contract."
+							}
 						</HelpTooltip>
 					</label>
 				</div>

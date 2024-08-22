@@ -90,7 +90,9 @@ export default function ERC721Controls({
 				<div className="form-control mt-1">
 					<label className="px-0 label flex ">
 						<span className="label-text">Base URI</span>
-						<HelpTooltip children="Create an initial amount of tokens for the deployer." />
+						<HelpTooltip>
+							Create an initial amount of tokens for the deployer.
+						</HelpTooltip>
 					</label>
 					<input
 						type="text"
@@ -164,7 +166,7 @@ export default function ERC721Controls({
 								className="checkbox"
 							/>
 							<span className="label-text flex-grow">{label}</span>
-							<HelpTooltip children={helpText} link={link} />
+							<HelpTooltip link={link}>{helpText}</HelpTooltip>
 						</label>
 					))}
 				</div>

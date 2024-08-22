@@ -89,7 +89,7 @@ export default function CustomControls({
 								className="checkbox"
 							/>
 							<span className="label-text flex-grow">{label}</span>
-							<HelpTooltip children={helpText} link={link} />
+							<HelpTooltip link={link}>{helpText}</HelpTooltip>
 						</label>
 					))}
 				</div>

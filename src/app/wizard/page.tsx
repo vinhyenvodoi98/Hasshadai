@@ -30,7 +30,7 @@ import ERC721Controls from './components/ERC721Controls';
 import CustomControls from './components/CustomControls';
 import GovernorControls from './components/GovernorControls';
 
-export let initialTab: string | undefined = 'ERC20';
+let initialTab: string | undefined = 'ERC20';
 const language = 'solidity';
 
 const Wizard: FC = () => {
