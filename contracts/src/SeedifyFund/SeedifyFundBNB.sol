@@ -133,9 +133,9 @@ contract SeedifyFundsContract is Ownable {
         uint256 _tierTwoValue,
         uint256 _tierThreeValue,
         uint256 _tierFourValue,
-        uint256 _tierFiveValue,
-        uint256 _tierSixValue,
-        uint256 _tierSevenValue,
+        // uint256 _tierFiveValue,
+        // uint256 _tierSixValue,
+        // uint256 _tierSevenValue,
         // uint256 _tierEightValue,
         // uint256 _tierNineValue,
         uint256 _totalparticipants
@@ -149,9 +149,9 @@ contract SeedifyFundsContract is Ownable {
         tierTwoMaxCap = _tierTwoValue;
         tierThreeMaxCap = _tierThreeValue;
         tierFourMaxCap = _tierFourValue;
-        tierFiveMaxCap = _tierFiveValue;
-        tierSixMaxCap = _tierSixValue;
-        tierSevenMaxCap = _tierSevenValue;
+        // tierFiveMaxCap = _tierFiveValue;
+        // tierSixMaxCap = _tierSixValue;
+        // tierSevenMaxCap = _tierSevenValue;
         // tierEightMaxCap = _tierEightValue;
         // tierNineMaxCap = _tierNineValue;
 
