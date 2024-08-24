@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import "../SeedifyFund/SeedifyFundBUSD.sol";
+
 contract ImplementationContract {
-    bool private isInitialized; //initializer function that will be called once, during
+    bool public isInitialized; //initializer function that will be called once, during
 
     function initializer() external {
         require(!isInitialized);
@@ -12,14 +14,25 @@ contract ImplementationContract {
 
 contract MinimalProxyFactory {
     address[] public proxies;
+    address public implementationContract;
+
+    constructor(address _implementation) {
+        implementationContract = _implementation;
+    }
 
     function deployClone(
-        address _implementationContract
+        string memory _name,
+        uint256 _maxCap,
+        uint256 _saleStart,
+        uint256 _saleEnd,
+        uint256 _noOfTiers,
+        address _projectOwner,
+        address _tokenAddress,
+        uint256 _totalUsers,
+        uint8 _phaseNo
     ) external returns (address) {
         // convert the address to 20 bytes
-        bytes20 implementationContractInBytes = bytes20(
-            _implementationContract
-        );
+        bytes20 implementationContractInBytes = bytes20(implementationContract);
         //address to assign a cloned proxy
         address proxy;
 
@@ -79,7 +92,17 @@ contract MinimalProxyFactory {
         }
 
         // Call initialization
-        ImplementationContract(proxy).initializer();
+        SeedifyLaunchpad(proxy).initialize(
+            _name,
+            _maxCap,
+            _saleStart,
+            _saleEnd,
+            _noOfTiers,
+            _projectOwner,
+            _tokenAddress,
+            _totalUsers,
+            _phaseNo
+        );
         proxies.push(proxy);
         return proxy;
     }
