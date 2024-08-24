@@ -6,22 +6,38 @@ async function main() {
 	);
 	// deploy the implementation contract
 	const implementationContract = await ImplementationContract.deploy();
-	await implementationContract.deployed();
+	await implementationContract.waitForDeployment();
+	const implementationAddress = await implementationContract.getAddress();
 
-	console.log('Implementation contract ', implementationContract.address);
+	console.log('Implementation contract ', implementationAddress);
 
 	const MinimalProxyFactory = await hre.ethers.getContractFactory(
 		'MinimalProxyFactory'
 	);
 	// deploy the minimal factory contract
-	const minimalProxyFactory = await MinimalProxyFactory.deploy();
-	await minimalProxyFactory.deployed();
+	const minimalProxyFactory = await MinimalProxyFactory.deploy(
+		implementationAddress
+	);
+	await minimalProxyFactory.waitForDeployment();
+	const minimalProxyAddress = await minimalProxyFactory.getAddress();
 
-	console.log('Minimal proxy factory contract ', minimalProxyFactory.address);
+	console.log('Minimal proxy factory contract ', minimalProxyAddress);
+	console.log(
+		'Check implementationContract',
+		await minimalProxyFactory.implementationContract()
+	);
 
 	// call the deploy clone function on the minimal factory contract and pass parameters
 	const deployCloneContract = await minimalProxyFactory.deployClone(
-		implementationContract.address
+		'seedify',
+		100,
+		Date.now() + 10,
+		Date.now() + 100,
+		3,
+		implementationAddress,
+		minimalProxyAddress,
+		10,
+		1
 	);
 	deployCloneContract.wait();
 
