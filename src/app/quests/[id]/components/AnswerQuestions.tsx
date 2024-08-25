@@ -14,6 +14,7 @@ export default function AnswerQuestions({questions} : {questions:Question[]}) {
   //   console.log(result)
   // };
 
+  console.log(questions)
   return(
     <div className="flex flex-col gap-4">
       {questions && questions.map((q, questionIndex) => (

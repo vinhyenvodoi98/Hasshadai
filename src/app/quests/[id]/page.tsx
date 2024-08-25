@@ -91,7 +91,7 @@ export default function Quests() {
               {
                 page === 1 ? <FollowProject link={"http://google.com"} />:
                 page === 2 ? <ReadDocument link={"http://google.com"}/>:
-                page === 3 ? <AnswerQuestions questions={quests.learnTier} />
+                page === 3 ? <AnswerQuestions questions={quests.learnTier.questions} />
                 : <div>Not found</div>
               }
             </div>
