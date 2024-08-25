@@ -121,7 +121,7 @@ export default function LearnTier({questions, setQuestions}:LearnTierInterface) 
 
           <div className="modal-action">
             <form method="dialog">
-              <button className="btn">Close</button>
+              <button className="btn btn-accent w-32">Save</button>
             </form>
           </div>
         </div>

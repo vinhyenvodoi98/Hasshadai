@@ -2,7 +2,7 @@
 pragma solidity ^0.8.13;
 
 import {Script, console} from "forge-std/Script.sol";
-import {SeedifyLaunchpad} from "../contracts/SeedifyFund/SeedifyFundBUSD.sol";
+import {SeedifyLaunchpad} from "../src/SeedifyFund/SeedifyFundBUSD.sol";
 
 contract SeedifyBUSDScript is Script {
     function setUp() public {}

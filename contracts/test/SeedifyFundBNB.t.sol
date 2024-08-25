@@ -3,7 +3,7 @@ pragma solidity ^0.8.9;
 
 import "forge-std/Test.sol";
 import "forge-std/console.sol";
-import {SeedifyFundsContract} from "../contracts/SeedifyFund/SeedifyFundBNB.sol";
+import {SeedifyFundsContract} from "../src/SeedifyFund/SeedifyFundBNB.sol";
 
 contract SeedifyFundsTest is Test {
     SeedifyFundsContract public seedify;
