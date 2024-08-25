@@ -5,6 +5,7 @@ import UploadImage from "./UploadImage";
 import LearnTier from "./LearnTier";
 import { useAccount } from "wagmi";
 import { useState } from "react";
+import TokenCheck from "./TokenCheck";
 
 interface ProjectFormInterface {
   initialData?: {
@@ -114,12 +115,7 @@ export default function ProjectForm({ initialData, handleSubmit }: ProjectFormIn
           </div>
           <input value={ownerAddress} onChange={(e)=> setOwnerAddress(e.target.value)} type="text" placeholder="0x..." className="input input-bordered w-full max-w" />
         </label>
-        <label className="form-control w-full max-w">
-          <div className="label">
-            <span className="label-text">What is your tokens (erc20) address?</span>
-          </div>
-          <input value={tokenAddress} onChange={(e)=> setTokenAddress(e.target.value)} type="text" placeholder="0x..." className="input input-bordered w-full max-w" />
-        </label>
+        <TokenCheck initialData={tokenAddress} setToken={setTokenAddress} />
         <Contacts contactList={contactList} setContactList={setContactList}/>
 
         <div className="form-control w-full">
