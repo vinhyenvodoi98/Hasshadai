@@ -13,6 +13,9 @@ export default function Navbar() {
           </Link>
         </div>
         <div className='flex gap-4'>
+          <Link href='/wizard' className='btn btn-ghost text-xl'>
+            Wizard
+          </Link>
           <Link href='/ido' className='btn btn-ghost text-xl'>
             IDO
           </Link>
