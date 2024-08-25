@@ -92,7 +92,7 @@ contract MinimalProxyFactory {
         }
 
         // Call initialization
-        SeedifyLaunchpad(proxy).initialize(
+        SeedifyLaunchpadBUSD(proxy).initialize(
             _name,
             _maxCap,
             _saleStart,

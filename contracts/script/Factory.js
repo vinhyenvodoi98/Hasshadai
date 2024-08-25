@@ -1,11 +1,11 @@
 const hre = require('hardhat');
 
 async function main() {
-	const ImplementationContract = await hre.ethers.getContractFactory(
-		'ImplementationContract'
+	const SeedifyLaunchpadBUSD = await hre.ethers.getContractFactory(
+		'SeedifyLaunchpadBUSD'
 	);
 	// deploy the implementation contract
-	const implementationContract = await ImplementationContract.deploy();
+	const implementationContract = await SeedifyLaunchpadBUSD.deploy();
 	await implementationContract.waitForDeployment();
 	const implementationAddress = await implementationContract.getAddress();
 
