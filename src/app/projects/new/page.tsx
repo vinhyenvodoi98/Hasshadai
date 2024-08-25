@@ -14,7 +14,6 @@ export default function NewProject() {
     });
 
     const result = await createNewProject.json();
-    console.log(result)
   };
 
   return(

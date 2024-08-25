@@ -1,11 +1,11 @@
-import { Contact, Project, Question } from "@/interfaces/project";
+import { Contact, LearnTier, Project, Question } from "@/interfaces/project";
 import Contacts from "./Contacts";
 import CustomDatePicker from "./CustomDatePicker";
 import UploadImage from "./UploadImage";
-import LearnTier from "./LearnTier";
 import { useAccount } from "wagmi";
 import { useState } from "react";
 import TokenCheck from "./TokenCheck";
+import LearnTierComponent from "./LearnTierComponent";
 
 interface ProjectFormInterface {
   initialData?: {
@@ -15,7 +15,7 @@ interface ProjectFormInterface {
     description: string
     ownerAddress: string
     tokenAddress: string
-    learnTier: Question[],
+    learnTier: LearnTier,
     contacts: Contact[],
     startAt: Date,
     endAt: Date
@@ -33,7 +33,8 @@ export default function ProjectForm({ initialData, handleSubmit }: ProjectFormIn
   const [endAt, setEndAt] = useState<Date>(initialData?.endAt || new Date())
   const [avatar, setAvatar] = useState<File | null>(null);
   const [background, setbBackground] = useState<File | null>(null);
-  const [questions, setQuestions] = useState<Question[]>(initialData?.learnTier ||[
+  const [document, setDocument] = useState(initialData?.learnTier.document || "")
+  const [questions, setQuestions] = useState<Question[]>(initialData?.learnTier.questions ||[
     {
       question: '',
       answers: [{ id: 1, text: '', isCorrect: false }],
@@ -84,7 +85,10 @@ export default function ProjectForm({ initialData, handleSubmit }: ProjectFormIn
       description,
       ownerAddress,
       tokenAddress,
-      learnTier: questions,
+      learnTier: {
+        document,
+        questions
+      },
       contacts: contactList,
       startAt,
       endAt
@@ -132,7 +136,7 @@ export default function ProjectForm({ initialData, handleSubmit }: ProjectFormIn
           <div className="label">
             <span className="label-text">Learn Tier</span>
           </div>
-          <LearnTier questions={questions} setQuestions={setQuestions}/>
+          <LearnTierComponent documentLink={document} setDocument={setDocument} questions={questions} setQuestions={setQuestions}/>
         </div>
 
         <div className='my-4'>

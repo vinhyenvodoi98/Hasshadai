@@ -5,12 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useOCAuth } from "@opencampus/ocid-connect-js";
 import { jwtDecode } from "jwt-decode";
 import LoginButton from './LoginButton';
-
-interface DecodedToken {
-  edu_username: string;
-  [key: string]: any;
-}
-
+import { DecodedToken } from '@/interfaces/OIDC';
 
 const Wallet = () => {
   const { authState } = useOCAuth();

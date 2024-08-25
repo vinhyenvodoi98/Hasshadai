@@ -4,6 +4,11 @@ export interface Answer {
   isCorrect: boolean;
 }
 
+export interface LearnTier {
+  document: string,
+  questions: Question[]
+}
+
 export interface Question {
   question: string;
   answers: Answer[];
@@ -24,7 +29,7 @@ export interface Project {
   ownerAddress: string;
   tokenAddress: string;
   contacts: Contact[];
-  learnTier: Question[]
+  learnTier: LearnTier;
   startAt: Date;
   endAt: Date;
   createdAt?: Date;

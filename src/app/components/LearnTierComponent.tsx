@@ -2,12 +2,14 @@ import { Answer, Question } from "@/interfaces/project";
 import { ChangeEvent, Dispatch, SetStateAction } from "react"
 
 interface LearnTierInterface {
+  documentLink: string,
+  setDocument: Dispatch<SetStateAction<string>>
   questions: Question[]
   setQuestions: Dispatch<SetStateAction<Question[]>>
 
 }
 
-export default function LearnTier({questions, setQuestions}:LearnTierInterface) {
+export default function LearnTierComponent({documentLink, setDocument, questions, setQuestions}:LearnTierInterface) {
   const handleOpenModal = () => {
     // eslint-disable-next-line
     // @ts-ignore
@@ -73,7 +75,7 @@ export default function LearnTier({questions, setQuestions}:LearnTierInterface) 
             <div className="label">
               <span className="label-text">Document link</span>
             </div>
-            <input type="text" placeholder="Type here" className="input input-bordered w-full max-w" />
+            <input value={documentLink} type="text" onChange={(e) => setDocument(e.target.value)} placeholder="Type here" className="input input-bordered w-full max-w" />
           </label>
 
           {questions.map((q, questionIndex) => (
