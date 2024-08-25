@@ -36,7 +36,27 @@ export default function IDODetails() {
   return (
     <div>
       <div className='grid grid-cols-1 lg:grid-cols-2 gap-16'>
-        <div className='flex flex-col justify-center gap-8'>
+        <div className='flex flex-col gap-8'>
+          <div>
+            {
+              project ?
+                <div className='relative'>
+                  <img
+                    src={`${process.env.NEXT_PUBLIC_CDN_HOST}/${project?.bgId}`}
+                    alt='project image'
+                    className='rounded-lg w-full h-56'
+                  />
+                  <Image
+                    src={`${process.env.NEXT_PUBLIC_CDN_HOST}/${project?.avatarId}`}
+                    height={128}
+                    width={128}
+                    alt='project image'
+                    className='rounded-lg absolute left-4 top-4'
+                  />
+                </div> :
+                <div className='w-32 h-32 skeleton'/>
+            }
+          </div>
           <h1 className={`text-4xl text-white ${loading && 'skeleton w-36 h-10'}`}>{project?.name}</h1>
           <p className={`text-justify h-64 ${loading && 'skeleton'}`}>
             {project?.description}
@@ -146,7 +166,9 @@ export default function IDODetails() {
                 <p>Remaining Allocation: 0</p>
               </div>
               <div className='flex justify-between'>
-                <button className='btn btn-primary w-40'>Approve</button>
+                <Link href={`/quests/${id}`}>
+                  <button className='btn btn-primary w-40'>Join Learn Tier</button>
+                </Link>
                 {loading ?
                   <div className='w-20 h-8 skeleton'></div>
                  : new Date(project?.startAt as any).getTime() < new Date().getTime() ?
