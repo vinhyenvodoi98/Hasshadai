@@ -147,23 +147,19 @@ const Wizard: FC = () => {
 		}, 1000);
 	};
 
-	// const remixHandler = async (e: React.MouseEvent) => {
-	// 	e.preventDefault();
-	// 	if ((e.target as Element)?.classList.contains("disabled")) return;
+	const remixHandler = async (e: React.MouseEvent) => {
+		e.preventDefault();
+		if ((e.target as Element)?.classList.contains('disabled')) return;
 
-	// 	const { printContractVersioned } = await import(
-	// 		"@openzeppelin/wizard/src/print-versioned"
-	// 	);
-	// 	const versionedCode = printContractVersioned(contract);
-	// 	window.open(
-	// 		remixURL(versionedCode, !!opts?.upgradeable).toString(),
-	// 		"_blank",
-	// 		"noopener,noreferrer"
-	// 	);
-	// 	if (opts) {
-	// 		await postConfig(opts, "remix", language);
-	// 	}
-	// };
+		window.open(
+			remixURL(code, !!opts?.upgradeable).toString(),
+			'_blank',
+			'noopener,noreferrer'
+		);
+		if (opts) {
+			await postConfig(opts, 'remix', language);
+		}
+	};
 
 	const downloadNpmHandler = async () => {
 		const blob = new Blob([code], { type: 'text/plain' });
@@ -220,7 +216,11 @@ const Wizard: FC = () => {
 				) : tab === 'ERC1155' ? (
 					<ERC1155Controls opts={allOpts.ERC1155} setAllOpts={setAllOpts} />
 				) : tab === 'Governor' ? (
-					<GovernorControls opts={allOpts.Governor} setAllOpts={setAllOpts} errors={errors.Governor}/>
+					<GovernorControls
+						opts={allOpts.Governor}
+						setAllOpts={setAllOpts}
+						errors={errors.Governor}
+					/>
 				) : (
 					<CustomControls opts={allOpts.Custom} setAllOpts={setAllOpts} />
 				)}
@@ -229,10 +229,14 @@ const Wizard: FC = () => {
 				<div className="bg-base-100 p-4 rounded-lg shadow-md w-full md:w-3/4 mt-4 md:mt-0 md:ml-4 flex flex-col">
 					<div className="flex justify-between items-center mb-4">
 						<h2 className="text-xl font-bold">Code</h2>
-						{/* <button className="btn btn-primary">Deploy with Defender</button> */}
-						<button className="btn" onClick={copyHandler}>
-							{copied ? 'Copied' : 'Copy to Clipboard'}
-						</button>
+						<div>
+							<button className="btn mr-5" onClick={remixHandler}>
+								Open in Remix
+							</button>
+							<button className="btn" onClick={copyHandler}>
+								{copied ? 'Copied' : 'Copy to Clipboard'}
+							</button>
+						</div>
 					</div>
 					<div className="output flex flex-col grow overflow-auto flex-1">
 						<pre className="flex flex-col grow basis-0 overflow-auto">
