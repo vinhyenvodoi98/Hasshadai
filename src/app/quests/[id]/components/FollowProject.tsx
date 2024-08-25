@@ -5,7 +5,7 @@ export default function FollowProject({ link }: {link:string}) {
   return(
     <div className="flex flex-col justify-center items-center gap-8 h-full">
       <img src='/images/follow-project.jpeg' className='w-28 h-28 rounded-3xl'/>
-      <p>Let's join our community</p>
+      <p>Let&apos;s join our community</p>
       <Link
         href={link}
         target='_blank'
