@@ -3,7 +3,7 @@ pragma solidity 0.8.9;
 
 import "forge-std/Test.sol";
 import "forge-std/console.sol";
-import {SeedifyLaunchpad} from "../contracts/SeedifyFund/SeedifyFundBUSD.sol";
+import {SeedifyLaunchpad} from "../src/SeedifyFund/SeedifyFundBUSD.sol";
 
 contract SeedifyFundsTest is Test {
     SeedifyLaunchpad public seedify;
