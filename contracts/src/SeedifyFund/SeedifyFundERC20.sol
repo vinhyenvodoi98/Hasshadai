@@ -198,7 +198,7 @@ abstract contract Pausable is Context {
     }
 }
 
-contract SeedifyLaunchpadBUSD is Ownable, Pausable {
+contract SeedifyLaunchpadERC20 is Ownable, Pausable {
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
 

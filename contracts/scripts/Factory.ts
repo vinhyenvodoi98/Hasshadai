@@ -1,11 +1,19 @@
-const hre = require('hardhat');
+import hre from 'hardhat';
+import { ethers } from 'hardhat';
 
 async function main() {
-	const SeedifyLaunchpadBUSD = await hre.ethers.getContractFactory(
-		'SeedifyLaunchpadBUSD'
+	const [owner] = await ethers.getSigners();
+
+	const USDT = await hre.ethers.getContractFactory('USDT');
+	const usdtContract = await USDT.deploy(10 ** 15);
+	await usdtContract.waitForDeployment();
+	const usdtAddress = await usdtContract.getAddress();
+
+	const SeedifyLaunchpadERC20 = await hre.ethers.getContractFactory(
+		'SeedifyLaunchpadERC20'
 	);
 	// deploy the implementation contract
-	const implementationContract = await SeedifyLaunchpadBUSD.deploy();
+	const implementationContract = await SeedifyLaunchpadERC20.deploy();
 	await implementationContract.waitForDeployment();
 	const implementationAddress = await implementationContract.getAddress();
 
@@ -29,14 +37,14 @@ async function main() {
 
 	// call the deploy clone function on the minimal factory contract and pass parameters
 	const deployCloneContract = await minimalProxyFactory.deployClone(
-		'seedify',
-		100,
+		'hasshaai',
+		100000,
 		Date.now() + 10,
-		Date.now() + 100,
+		Date.now() + 4 * 24 * 60 * 60 * 1000,
 		3,
-		implementationAddress,
-		minimalProxyAddress,
-		10,
+		owner,
+		usdtAddress,
+		1000,
 		1
 	);
 	deployCloneContract.wait();
@@ -58,3 +66,4 @@ main().catch((error) => {
 	console.error(error);
 	process.exitCode = 1;
 });
+

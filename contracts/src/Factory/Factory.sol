@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "../SeedifyFund/SeedifyFundBUSD.sol";
+import "../SeedifyFund/SeedifyFundERC20.sol";
 
 contract ImplementationContract {
     bool public isInitialized; //initializer function that will be called once, during
@@ -92,7 +92,7 @@ contract MinimalProxyFactory {
         }
 
         // Call initialization
-        SeedifyLaunchpadBUSD(proxy).initialize(
+        SeedifyLaunchpadERC20(proxy).initialize(
             _name,
             _maxCap,
             _saleStart,
