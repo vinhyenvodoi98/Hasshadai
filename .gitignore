@@ -35,3 +35,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .env
+contracts/hardhat.config.ts
+contracts/package-lock.json
+contracts/package.json
+contracts/tsconfig.json
