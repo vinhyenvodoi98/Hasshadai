@@ -125,7 +125,7 @@ contract LaunchpadERC20 is Ownable, Pausable {
     uint256 public saleEnd;
     uint256 public totalBUSDReceivedInAllTier;
     uint256 public noOfTiers;
-    uint256 public totalUsers;
+    // uint256 public totalUsers;
     address public projectOwner;
     address public tokenAddress;
     IERC20 public ERC20Interface;
@@ -161,7 +161,7 @@ contract LaunchpadERC20 is Ownable, Pausable {
         uint256 _noOfTiers,
         address _projectOwner,
         address _tokenAddress,
-        uint256 _totalUsers,
+        // uint256 _totalUsers,
         uint8 _phaseNo
     ) external {
         require(!isInitialized, "BUSDLaunchpad: FORBIDDEN");
@@ -182,8 +182,8 @@ contract LaunchpadERC20 is Ownable, Pausable {
         require(_tokenAddress != address(0), "Zero token address");
         tokenAddress = _tokenAddress;
         ERC20Interface = IERC20(tokenAddress);
-        require(_totalUsers > 0, "Zero users");
-        totalUsers = _totalUsers;
+        // require(_totalUsers > 0, "Zero users");
+        // totalUsers = _totalUsers;
         phaseNo = _phaseNo;
     }
 
