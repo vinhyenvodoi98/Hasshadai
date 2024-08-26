@@ -1,11 +1,10 @@
 import { Contact, LearnTier, Project, Question } from "@/interfaces/project";
 import Contacts from "./Contacts";
-import CustomDatePicker from "./CustomDatePicker";
 import UploadImage from "./UploadImage";
 import { useAccount } from "wagmi";
 import { useState } from "react";
-import TokenCheck from "./TokenCheck";
 import LearnTierComponent from "./LearnTierComponent";
+import CreateLaunchPadContract from "./CreateLaunchpadContract";
 
 interface ProjectFormInterface {
   initialData?: {
@@ -15,9 +14,9 @@ interface ProjectFormInterface {
     description: string
     ownerAddress: string
     tokenAddress: string
-    learnTier: LearnTier,
-    contacts: Contact[],
-    startAt: Date,
+    learnTier: LearnTier
+    contacts: Contact[]
+    startAt: Date
     endAt: Date
   } | null;
   handleSubmit: (project: Project) => void;
@@ -34,6 +33,9 @@ export default function ProjectForm({ initialData, handleSubmit }: ProjectFormIn
   const [avatar, setAvatar] = useState<File | null>(null);
   const [background, setbBackground] = useState<File | null>(null);
   const [document, setDocument] = useState(initialData?.learnTier.document || "")
+  const [maxCap, setMaxCap] = useState(0)
+  const [numberOfTier, setNumberOfTier] = useState(0)
+  const [phaseNo, setPhaseNo] = useState(0)
   const [questions, setQuestions] = useState<Question[]>(initialData?.learnTier.questions ||[
     {
       question: '',
@@ -113,30 +115,37 @@ export default function ProjectForm({ initialData, handleSubmit }: ProjectFormIn
           </div>
           <textarea value={description} onChange={(e)=> setDescription(e.target.value)} className="textarea textarea-bordered h-24" placeholder="Describe your project"></textarea>
         </label>
-        <label className="form-control w-full max-w">
-          <div className="label">
-            <span className="label-text">What is your owner wallet address?</span>
-          </div>
-          <input value={ownerAddress} onChange={(e)=> setOwnerAddress(e.target.value)} type="text" placeholder="0x..." className="input input-bordered w-full max-w" />
-        </label>
-        <TokenCheck initialData={tokenAddress} setToken={setTokenAddress} />
-        <Contacts contactList={contactList} setContactList={setContactList}/>
 
-        <div className="form-control w-full">
-          <div className="label">
-            <span className="label-text">Select when IDO start-end?</span>
-          </div>
-          <div className="grid grid-cols-2 gap-10">
-            <CustomDatePicker title="From" date={startAt} setDate={setStartAt}/>
-            <CustomDatePicker title="To" date={endAt} setDate={setEndAt}/>
-          </div>
-        </div>
+        <Contacts contactList={contactList} setContactList={setContactList}/>
 
         <div>
           <div className="label">
             <span className="label-text">Learn Tier</span>
           </div>
           <LearnTierComponent documentLink={document} setDocument={setDocument} questions={questions} setQuestions={setQuestions}/>
+        </div>
+
+        <div>
+          <div className="label">
+            <span className="label-text">Create LaunchPad</span>
+          </div>
+          <CreateLaunchPadContract
+            name={name}
+            maxCap={maxCap}
+            setMaxCap={setMaxCap}
+            startAt={startAt}
+            setStartAt={setStartAt}
+            endAt={endAt}
+            setEndAt={setEndAt}
+            noOfTier={numberOfTier}
+            setNoOfTier={setNumberOfTier}
+            projectOwner={ownerAddress}
+            setProjectOwner={setOwnerAddress}
+            tokenAddress={tokenAddress}
+            setTokenAddress={setTokenAddress}
+            phaseNo={phaseNo}
+            setPhaseNo={setPhaseNo}
+            />
         </div>
 
         <div className='my-4'>
