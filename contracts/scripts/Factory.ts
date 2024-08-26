@@ -4,39 +4,36 @@ import { ethers } from 'hardhat';
 async function main() {
 	const [owner] = await ethers.getSigners();
 
-	const USDT = await hre.ethers.getContractFactory('USDT');
-	const usdtContract = await USDT.deploy(10 ** 15);
-	await usdtContract.waitForDeployment();
-	const usdtAddress = await usdtContract.getAddress();
+	// const USDT = await hre.ethers.getContractFactory('USDT');
+	// const usdtContract = await USDT.deploy(10 ** 15);
+	// await usdtContract.waitForDeployment();
+	// const usdtAddress = await usdtContract.getAddress();
+	const usdtAddress = '0x3cee79798A2436b26Baf090117156b42EE7c2cad';
 
-	const SeedifyLaunchpadERC20 = await hre.ethers.getContractFactory(
-		'SeedifyLaunchpadERC20'
-	);
+	const LaunchpadERC20 = await hre.ethers.getContractFactory('LaunchpadERC20');
 	// deploy the implementation contract
-	const implementationContract = await SeedifyLaunchpadERC20.deploy();
+	const implementationContract = await LaunchpadERC20.deploy();
 	await implementationContract.waitForDeployment();
 	const implementationAddress = await implementationContract.getAddress();
 
 	console.log('Implementation contract ', implementationAddress);
 
-	const MinimalProxyFactory = await hre.ethers.getContractFactory(
-		'MinimalProxyFactory'
+	const LaunchpadFactory = await hre.ethers.getContractFactory(
+		'LaunchpadFactory'
 	);
 	// deploy the minimal factory contract
-	const minimalProxyFactory = await MinimalProxyFactory.deploy(
-		implementationAddress
-	);
-	await minimalProxyFactory.waitForDeployment();
-	const minimalProxyAddress = await minimalProxyFactory.getAddress();
+	const launchpadFactory = await LaunchpadFactory.deploy(implementationAddress);
+	await launchpadFactory.waitForDeployment();
+	const minimalProxyAddress = await launchpadFactory.getAddress();
 
 	console.log('Minimal proxy factory contract ', minimalProxyAddress);
 	console.log(
 		'Check implementationContract',
-		await minimalProxyFactory.implementationContract()
+		await launchpadFactory.implementationContract()
 	);
 
 	// call the deploy clone function on the minimal factory contract and pass parameters
-	const deployCloneContract = await minimalProxyFactory.deployClone(
+	const deployCloneContract = await launchpadFactory.deployClone(
 		'hasshaai',
 		100000,
 		Date.now() + 10,
@@ -44,20 +41,16 @@ async function main() {
 		3,
 		owner,
 		usdtAddress,
-		1000,
 		1
 	);
 	deployCloneContract.wait();
 
 	// get deployed proxy address
-	const ProxyAddress = await minimalProxyFactory.proxies(0);
-	console.log('Proxy contract ', ProxyAddress);
+	const proxyAddress = await launchpadFactory.allLaunchpads(0);
+	console.log('Proxy contract ', proxyAddress);
 
 	// load the clone
-	const proxy = await hre.ethers.getContractAt(
-		'ImplementationContract',
-		ProxyAddress
-	);
+	const proxy = await hre.ethers.getContractAt('LaunchpadERC20', proxyAddress);
 
 	console.log('Proxy is initialized == ', await proxy.isInitialized()); // get initialized boolean == true
 }
@@ -66,4 +59,3 @@ main().catch((error) => {
 	console.error(error);
 	process.exitCode = 1;
 });
-

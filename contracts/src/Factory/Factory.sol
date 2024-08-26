@@ -47,7 +47,6 @@ contract LaunchpadFactory {
             _noOfTiers,
             _projectOwner,
             _tokenAddress,
-            0,
             _phaseNo
         );
         allLaunchpads.push(proxy);
@@ -94,7 +93,6 @@ contract LaunchpadFactory {
             _noOfTiers,
             _projectOwner,
             _tokenAddress,
-            0,
             _phaseNo
         );
         allLaunchpads.push(launchpad);
