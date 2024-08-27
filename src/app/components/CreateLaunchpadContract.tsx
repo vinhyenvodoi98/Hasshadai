@@ -1,10 +1,8 @@
-import { Dispatch, SetStateAction } from "react"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import CustomDatePicker from "./CustomDatePicker";
 import TokenCheck from "./TokenCheck";
-import { useAccount, useWriteContract } from 'wagmi'
+import { useSimulateContract, useWriteContract } from 'wagmi'
 import FactoryAbi from '../../../contracts/out/Factory.sol/LaunchpadFactory.json'
-import { watchContractEvent } from "wagmi/actions";
-import { wagmiConfig } from "@/config/wagmiConfig";
 import { toast } from "react-toastify";
 import Link from "next/link";
 
@@ -22,6 +20,7 @@ interface CreateLaunchPadContractInterface {
   setProjectOwner: Dispatch<SetStateAction<string>>,
   tokenAddress: string,
   setTokenAddress: Dispatch<SetStateAction<string>>,
+  launchPadContract: string
   setLaunchPadContract: Dispatch<SetStateAction<string>>,
 }
 
@@ -39,10 +38,12 @@ export default function CreateLaunchPadContract({
     setProjectOwner,
     tokenAddress,
     setTokenAddress,
+    launchPadContract,
     setLaunchPadContract,
   }: CreateLaunchPadContractInterface) {
 
   const { writeContract} = useWriteContract()
+  const [loadLaunchpadAddress, setLoadLaunchpadAddress] = useState(false)
 
   const handleOpenModal = () => {
     // eslint-disable-next-line
@@ -50,17 +51,21 @@ export default function CreateLaunchPadContract({
     document.getElementById('create_launchpad_contract').showModal()
   }
 
-  const unwatch = watchContractEvent(wagmiConfig, {
+  const { data } = useSimulateContract({
     abi: FactoryAbi.abi,
     address: process.env.NEXT_PUBLIC_LAUNCHPAD_FACTORY as `0x${string}`,
-    eventName: 'LaunchpadDeployed',
-    onLogs(logs: any) {
-      console.log('New logs!', logs)
-    },
-    poll: true,
+    functionName: 'deployClone',
+    args: [
+      name,
+      maxCap,
+      new Date(startAt).getTime(),
+      new Date(endAt).getTime(),
+      noOfTier,
+      projectOwner,
+      tokenAddress,
+      1
+    ],
   })
-
-  unwatch()
 
   const CustomToastWithLink = (tx:string) => (
     <div>
@@ -68,6 +73,13 @@ export default function CreateLaunchPadContract({
       <Link target="_blank" href={`https://opencampus-codex.blockscout.com/tx/${tx}`}>Details</Link>
     </div>
   );
+
+  useEffect(() => {
+    if(data?.result && loadLaunchpadAddress){
+      setLaunchPadContract(data?.result)
+      setLoadLaunchpadAddress(false)
+    }
+  }, [data, loadLaunchpadAddress])
 
   return (
     <div>
@@ -115,26 +127,13 @@ export default function CreateLaunchPadContract({
             </div>
           </div>
           <div className="modal-action">
-            <button onClick={() =>
-                writeContract({
-                  abi: FactoryAbi.abi,
-                  address: process.env.NEXT_PUBLIC_LAUNCHPAD_FACTORY as `0x${string}`,
-                  functionName: 'deployClone',
-                  args: [
-                    name,
-                    maxCap,
-                    new Date(startAt).getTime(),
-                    new Date(endAt).getTime(),
-                    noOfTier,
-                    projectOwner,
-                    tokenAddress,
-                    1
-                  ],
-              },{
+            <button disabled={!Boolean(data?.request) || launchPadContract.length > 0} onClick={() =>
+                writeContract( data!.request,{
                 onSuccess (data) {
                   toast.success(
                     CustomToastWithLink(data)
                   );
+                  setLoadLaunchpadAddress(true)
                 },
                 onError(error) {
                   console.log("error",error)

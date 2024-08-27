@@ -149,6 +149,7 @@ export default function ProjectForm({ initialData, handleSubmit }: ProjectFormIn
             setProjectOwner={setOwnerAddress}
             tokenAddress={tokenAddress}
             setTokenAddress={setTokenAddress}
+            launchPadContract={launchPadContract}
             setLaunchPadContract={setLaunchPadContract}
             />
         </div>
