@@ -139,7 +139,7 @@ contract LaunchpadERC20 is Ownable, Pausable {
         uint256 users;
     }
 
-    struct user {
+    struct User {
         uint256 tier;
         uint256 investedAmount;
     }
@@ -151,7 +151,7 @@ contract LaunchpadERC20 is Ownable, Pausable {
     );
 
     mapping(uint256 => Tier) public tierDetails;
-    mapping(address => user) public userDetails;
+    mapping(address => User) public userDetails;
 
     function initialize(
         string memory _name,
