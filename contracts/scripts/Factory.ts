@@ -43,7 +43,13 @@ async function main() {
 		usdtAddress,
 		1
 	);
-	deployCloneContract.wait();
+	const receipt = await deployCloneContract.wait();
+
+	if ('args' in receipt!.logs[0]) {
+		console.log((receipt!.logs[0] as any).args);
+	} else {
+		console.log('No args property found in the log');
+	}
 
 	// get deployed proxy address
 	const proxyAddress = await launchpadFactory.allLaunchpads(0);
