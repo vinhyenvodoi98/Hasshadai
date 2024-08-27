@@ -5,7 +5,9 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ['pub-5c55b2125d664adeb65758deb38eb4cb.r2.dev'],
+    remotePatterns: [{
+      hostname: 'pub-5c55b2125d664adeb65758deb38eb4cb.r2.dev'
+    }],
   },
   reactStrictMode: false,
   exclude: ['contracts'],

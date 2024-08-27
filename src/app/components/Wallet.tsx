@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { useOCAuth } from "@opencampus/ocid-connect-js";
 import { jwtDecode } from "jwt-decode";
-import LoginButton from './LoginButton';
+import LoginButton from './OCLoginButton';
 import { DecodedToken } from '@/interfaces/OIDC';
 
 const Wallet = () => {

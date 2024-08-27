@@ -32,6 +32,9 @@ export interface Project {
   learnTier: LearnTier;
   startAt: Date;
   endAt: Date;
+  maxCap: number;
+  numberOfTier: number;
+  launchPadContract: string;
   createdAt?: Date;
   updatedAt?: Date;
 }

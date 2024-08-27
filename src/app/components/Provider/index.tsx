@@ -11,6 +11,9 @@ import {
 } from "@tanstack/react-query";
 import { WagmiProvider } from "wagmi";
 import { OCConnect } from '@opencampus/ocid-connect-js';
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
 
 const queryClient = new QueryClient();
 
@@ -25,6 +28,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         <QueryClientProvider client={queryClient}>
           <RainbowKitProvider coolMode theme={darkTheme()}>
             {children}
+            <ToastContainer position="top-right" newestOnTop />
           </RainbowKitProvider>
         </QueryClientProvider>
       </WagmiProvider>

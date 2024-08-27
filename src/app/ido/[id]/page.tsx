@@ -7,6 +7,9 @@ import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Project } from '@/interfaces/project';
+import { shortenAddress } from '@/app/utils/addresses';
+import { useReadContracts } from 'wagmi';
+import ERC20Abi from '../../../../contracts/out/ERC20.sol/ERC20.json';
 
 const CountDown = dynamic(() => import('@/app/components/Countdown'), {
   ssr: false,
@@ -32,6 +35,26 @@ export default function IDODetails() {
 
     if(id) fetchData();
   }, [id])
+
+  const { data: token } = useReadContracts({
+    contracts: [
+      {
+        address: project?.tokenAddress as `0x${string}`,
+        abi: ERC20Abi.abi as any,
+        functionName: 'name',
+      },
+      {
+        address: project?.tokenAddress as `0x${string}`,
+        abi: ERC20Abi.abi as any,
+        functionName: 'symbol',
+      },
+      {
+        address: project?.tokenAddress as `0x${string}`,
+        abi: ERC20Abi.abi as any,
+        functionName: 'decimals',
+      },
+    ],
+  });
 
   return (
     <div>
@@ -139,7 +162,7 @@ export default function IDODetails() {
                     width={32}
                     alt='raise token'
                   />
-                  <h1 className='text-white'>1000000 USDT</h1>
+                  <h1 className='text-white'>{project?.maxCap} USDT</h1>
                 </div>
               </div>
               <div className='bg-base-100 w-40 h-12 rounded-lg flex justify-center items-center'>
@@ -149,12 +172,12 @@ export default function IDODetails() {
             <div className='divider'></div>
             <div className='grid gap-8'>
               <div className='flex justify-between text-white font-bold'>
-                <div>100000 / 1000000 USDT</div>
-                <div>Progress 10%</div>
+                <div>0 / {project?.maxCap} USDT</div>
+                <div>Progress 0%</div>
               </div>
               <progress
                 className='progress progress-primary w-full h-4 rounded-full'
-                value='10'
+                value='0'
                 max='100'
               ></progress>
               <div className='flex justify-between font-bold'>
@@ -221,12 +244,12 @@ export default function IDODetails() {
           <div className='bg-base-200 p-8 rounded-lg font-bold'>
             <div className='flex justify-between'>
               <p>TOKEN</p>
-              <p className='text-white'>ORFY</p>
+              {token && <p className='text-white'>{`${token[0].result}`}</p> }
             </div>
             <div className='divider'></div>
             <div className='flex justify-between'>
               <p>TOKEN FOR SALE</p>
-              <p className='text-white'>30000000</p>
+              <p className='text-white'>{project?.maxCap}</p>
             </div>
             <div className='divider'></div>
             <div className='flex justify-between'>
@@ -236,7 +259,7 @@ export default function IDODetails() {
             <div className='divider'></div>
             <div className='flex justify-between'>
               <p>TOKEN ADDRESS</p>
-              <p className='text-white'>TBA</p>
+              <p className='text-white'>{project ? shortenAddress(project.tokenAddress) : "loading"}</p>
             </div>
             <div className='divider'></div>
             <div className='flex justify-between'>
