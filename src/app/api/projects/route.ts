@@ -22,6 +22,9 @@ const POST = async (req: NextRequest) => {
         learnTier: data.learnTier,
         startAt: new Date(data.startAt),
         endAt: new Date(data.endAt),
+        maxCap: data.maxCap,
+        numberOfTier: data.numberOfTier,
+        launchPadContract: data.launchPadContract,
       });
       return NextResponse.json({ message: 'Project added successfully', projectId: result.insertedId }, { status: 201 })
     } catch (error) {
@@ -98,6 +101,9 @@ const PUT = async (req: NextRequest) => {
           learnTier: data.learnTier,
           startAt: new Date(data.startAt),
           endAt: new Date(data.endAt),
+          maxCap: data.maxCap,
+          numberOfTier: data.numberOfTier,
+          launchPadContract: data.launchPadContract,
         }});
         if (result && result.matchedCount === 0) {
           return NextResponse.json({ error: 'No document found with the provided ID' }, { status: 404 })

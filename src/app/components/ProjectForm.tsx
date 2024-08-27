@@ -18,6 +18,9 @@ interface ProjectFormInterface {
     contacts: Contact[]
     startAt: Date
     endAt: Date
+    numberOfTier: number
+    maxCap: number
+    launchPadContract: string
   } | null;
   handleSubmit: (project: Project) => void;
 }
@@ -33,9 +36,9 @@ export default function ProjectForm({ initialData, handleSubmit }: ProjectFormIn
   const [avatar, setAvatar] = useState<File | null>(null);
   const [background, setbBackground] = useState<File | null>(null);
   const [document, setDocument] = useState(initialData?.learnTier.document || "")
-  const [maxCap, setMaxCap] = useState(0)
-  const [numberOfTier, setNumberOfTier] = useState(0)
-  const [phaseNo, setPhaseNo] = useState(0)
+  const [maxCap, setMaxCap] = useState(initialData?.maxCap || 0)
+  const [numberOfTier, setNumberOfTier] = useState(initialData?.numberOfTier || 0)
+  const [launchPadContract, setLaunchPadContract] = useState<string>(initialData?.launchPadContract || "")
   const [questions, setQuestions] = useState<Question[]>(initialData?.learnTier.questions ||[
     {
       question: '',
@@ -93,7 +96,10 @@ export default function ProjectForm({ initialData, handleSubmit }: ProjectFormIn
       },
       contacts: contactList,
       startAt,
-      endAt
+      endAt,
+      maxCap,
+      numberOfTier,
+      launchPadContract,
     } as Project)
   }
 
@@ -143,10 +149,16 @@ export default function ProjectForm({ initialData, handleSubmit }: ProjectFormIn
             setProjectOwner={setOwnerAddress}
             tokenAddress={tokenAddress}
             setTokenAddress={setTokenAddress}
-            phaseNo={phaseNo}
-            setPhaseNo={setPhaseNo}
+            setLaunchPadContract={setLaunchPadContract}
             />
         </div>
+
+        <label className="form-control w-full max-w">
+          <div className="label">
+            <span className="label-text">LaunchPad contract address</span>
+          </div>
+          <input value={launchPadContract.length > 0 ? launchPadContract : "You can see address after deploy"} type="text" disabled className="input input-bordered w-full max-w" />
+        </label>
 
         <div className='my-4'>
           <button

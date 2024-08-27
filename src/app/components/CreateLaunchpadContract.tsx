@@ -3,6 +3,10 @@ import CustomDatePicker from "./CustomDatePicker";
 import TokenCheck from "./TokenCheck";
 import { useAccount, useWriteContract } from 'wagmi'
 import FactoryAbi from '../../../contracts/out/Factory.sol/LaunchpadFactory.json'
+import { watchContractEvent } from "wagmi/actions";
+import { wagmiConfig } from "@/config/wagmiConfig";
+import { toast } from "react-toastify";
+import Link from "next/link";
 
 interface CreateLaunchPadContractInterface {
   name: string,
@@ -18,8 +22,7 @@ interface CreateLaunchPadContractInterface {
   setProjectOwner: Dispatch<SetStateAction<string>>,
   tokenAddress: string,
   setTokenAddress: Dispatch<SetStateAction<string>>,
-  phaseNo: number
-  setPhaseNo: Dispatch<SetStateAction<number>>,
+  setLaunchPadContract: Dispatch<SetStateAction<string>>,
 }
 
 export default function CreateLaunchPadContract({
@@ -36,17 +39,35 @@ export default function CreateLaunchPadContract({
     setProjectOwner,
     tokenAddress,
     setTokenAddress,
-    phaseNo,
-    setPhaseNo,
+    setLaunchPadContract,
   }: CreateLaunchPadContractInterface) {
 
-  const { writeContract, error } = useWriteContract()
+  const { writeContract} = useWriteContract()
 
   const handleOpenModal = () => {
     // eslint-disable-next-line
     // @ts-ignore
     document.getElementById('create_launchpad_contract').showModal()
   }
+
+  const unwatch = watchContractEvent(wagmiConfig, {
+    abi: FactoryAbi.abi,
+    address: process.env.NEXT_PUBLIC_LAUNCHPAD_FACTORY as `0x${string}`,
+    eventName: 'LaunchpadDeployed',
+    onLogs(logs: any) {
+      console.log('New logs!', logs)
+    },
+    poll: true,
+  })
+
+  unwatch()
+
+  const CustomToastWithLink = (tx:string) => (
+    <div>
+      <p>Transaction has been created successfully:</p>
+      <Link target="_blank" href={`https://opencampus-codex.blockscout.com/tx/${tx}`}>Details</Link>
+    </div>
+  );
 
   return (
     <div>
@@ -84,13 +105,6 @@ export default function CreateLaunchPadContract({
             <input value={noOfTier} onChange={(e)=> setNoOfTier(Number(e.target.value))} type="number" className="input input-bordered w-full max-w" />
           </label>
 
-          <label className="form-control w-full max-w">
-            <div className="label">
-              <span className="label-text">Phase No</span>
-            </div>
-            <input value={phaseNo} onChange={(e)=> setPhaseNo(Number(e.target.value))} type="number" className="input input-bordered w-full max-w" />
-          </label>
-
           <div className="form-control w-full">
             <div className="label">
               <span className="label-text">Select when IDO start-end?</span>
@@ -114,8 +128,17 @@ export default function CreateLaunchPadContract({
                     noOfTier,
                     projectOwner,
                     tokenAddress,
-                    phaseNo
+                    1
                   ],
+              },{
+                onSuccess (data) {
+                  toast.success(
+                    CustomToastWithLink(data)
+                  );
+                },
+                onError(error) {
+                  console.log("error",error)
+                },
               })
               } className="btn btn-accent w-32">Deploy</button>
             <form method="dialog">
