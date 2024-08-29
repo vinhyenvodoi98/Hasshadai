@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import FollowProject from "./components/FollowProject";
 import ReadDocument from "./components/ReadDocument";
 import AnswerQuestions from "./components/AnswerQuestions";
+import { VerifyOpenCampusID } from "@/app/components/VerifyOpenCampusID";
 
 export default function Quests() {
   const [quests, setQuest] = useState<any>(null);
@@ -17,7 +18,7 @@ export default function Quests() {
   const {id} = useParams<{ id: string}>()
   const { authState } = useOCAuth();
   const [ocidUsername, setOcidUsername] = useState<string | null>(null);
-  const [page, setPage] = useState<number>(1)
+  const [page, setPage] = useState<number>(0)
 
   useEffect(() => {
     // Check if user is logged in with OCID
@@ -65,17 +66,21 @@ export default function Quests() {
           }
           <p className="text-xl">Finish all steps</p>
           <div className="flex flex-col gap-4">
-            <button onClick={() => setPage(1)} className="w-full rounded-lg p-4 flex gap-4 bg-base-200 hover:bg-base-300 items-center">
+            <button onClick={() => setPage(0)} className="w-full rounded-lg flex justify-start gap-4 btn h-12 items-center">
+              <kbd className="kbd">0</kbd>
+              Verify with Open Campus ID
+            </button>
+            <button onClick={() => setPage(1)} disabled={!authState.idToken} className="w-full rounded-lg flex justify-start gap-4 btn h-12 items-center">
               <kbd className="kbd">1</kbd>
               Follow Project
             </button>
-            <button onClick={() => setPage(2)} className="w-full rounded-lg p-4 flex gap-4 bg-base-200 hover:bg-base-300 items-center">
+            <button onClick={() => setPage(2)} disabled={!authState.idToken} className="w-full rounded-lg flex justify-start gap-4 btn h-12 items-center">
               <kbd className="kbd">2</kbd>
               Read Document
             </button>
-            <button onClick={() => setPage(3)} className="w-full rounded-lg p-4 flex gap-4 bg-base-200 hover:bg-base-300 items-center">
-              <kbd className="kbd">3</kbd>
-              Answer Questions
+            <button onClick={() => setPage(3)} disabled={!authState.idToken} className="w-full rounded-lg flex justify-start gap-4 btn h-12 items-center">
+                <kbd className="kbd">3</kbd>
+                Answer Questions
             </button>
           </div>
           <hr/>
@@ -89,6 +94,7 @@ export default function Quests() {
               <div className="skeleton w-full h-full"/>
             : <div className="p-7 h-full">
               {
+                page === 0 ? <VerifyOpenCampusID />:
                 page === 1 ? <FollowProject link={"http://google.com"} />:
                 page === 2 ? <ReadDocument link={"http://google.com"}/>:
                 page === 3 ? <AnswerQuestions questions={quests.learnTier.questions} />

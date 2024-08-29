@@ -4,6 +4,7 @@ import ProjectForm from "@/app/components/ProjectForm";
 import { Project } from "@/interfaces/project";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export default function EditProject() {
   const searchParams = useSearchParams()
@@ -28,16 +29,20 @@ export default function EditProject() {
   }, [id])
 
   const handleSubmit = async (project: Project) => {
-    const createNewProject = await fetch(`/api/projects?id=${id}`, {
-      method: 'PUT',
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(project as Project),
-    });
+    try {
+      const createNewProject = await fetch(`/api/projects?id=${id}`, {
+        method: 'PUT',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(project as Project),
+      });
 
-    const result = await createNewProject.json();
-    console.log(result)
+      const result = await createNewProject.json();
+      toast.success("Edit project successfully! ")
+    } catch(error) {
+      toast.error(error as string)
+    }
   };
 
   return(

@@ -35,6 +35,7 @@ export interface Project {
   maxCap: number;
   numberOfTier: number;
   launchPadContract: string;
+  whitelist: string[];
   createdAt?: Date;
   updatedAt?: Date;
 }

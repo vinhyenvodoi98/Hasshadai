@@ -5,6 +5,7 @@ import { useAccount } from "wagmi";
 import { useState } from "react";
 import LearnTierComponent from "./LearnTierComponent";
 import CreateLaunchPadContract from "./CreateLaunchpadContract";
+import Whitelist from "./Whitelist";
 
 interface ProjectFormInterface {
   initialData?: {
@@ -21,6 +22,7 @@ interface ProjectFormInterface {
     numberOfTier: number
     maxCap: number
     launchPadContract: string
+    whitelist: string[]
   } | null;
   handleSubmit: (project: Project) => void;
 }
@@ -39,6 +41,7 @@ export default function ProjectForm({ initialData, handleSubmit }: ProjectFormIn
   const [maxCap, setMaxCap] = useState(initialData?.maxCap || 0)
   const [numberOfTier, setNumberOfTier] = useState(initialData?.numberOfTier || 0)
   const [launchPadContract, setLaunchPadContract] = useState<string>(initialData?.launchPadContract || "")
+  const [whitelist, setWhitelist] = useState<string[]>(initialData?.whitelist || [])
   const [questions, setQuestions] = useState<Question[]>(initialData?.learnTier.questions ||[
     {
       question: '',
@@ -100,6 +103,7 @@ export default function ProjectForm({ initialData, handleSubmit }: ProjectFormIn
       maxCap,
       numberOfTier,
       launchPadContract,
+      whitelist
     } as Project)
   }
 
@@ -151,6 +155,7 @@ export default function ProjectForm({ initialData, handleSubmit }: ProjectFormIn
             setTokenAddress={setTokenAddress}
             launchPadContract={launchPadContract}
             setLaunchPadContract={setLaunchPadContract}
+
             />
         </div>
 
@@ -160,6 +165,14 @@ export default function ProjectForm({ initialData, handleSubmit }: ProjectFormIn
           </div>
           <input value={launchPadContract.length > 0 ? launchPadContract : "You can see address after deploy"} type="text" disabled className="input input-bordered w-full max-w" />
         </label>
+
+        <div>
+          <div className="label">
+            <span className="label-text">Edit Whitelist</span>
+          </div>
+          <Whitelist whitelist={whitelist} setWhitelist={setWhitelist} />
+        </div>
+
 
         <div className='my-4'>
           <button
