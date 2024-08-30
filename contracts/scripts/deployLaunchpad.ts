@@ -65,6 +65,7 @@ async function readLaunchpad() {
 		'LaunchpadFactory',
 		factoryAddress
 	);
+	log('implementationContract', await launchpadFactory.implementationContract());
 	log('length', await launchpadFactory.getAllLaunchpadsLength());
 	// get deployed proxy address
 	const proxyAddress = await launchpadFactory.allLaunchpads(0);
@@ -77,3 +78,4 @@ readLaunchpad().catch((error) => {
 	console.error(error);
 	process.exitCode = 1;
 });
+npx hardhat verify --network opencampus 0xec462068a2C126c5577bF985C1D255b8143792Ad  "0x68bb01404ab9B2Ce073215DD597186eBd776E2b7"
