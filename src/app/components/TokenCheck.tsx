@@ -37,7 +37,7 @@ export default function TokenCheck({initialData, setToken}: TokenCheckface) {
   return (
     <label className="form-control w-full max-w">
       <div className="label">
-        <span className="label-text">What is your tokens (erc20) address?</span>
+        <span className="label-text">What is ERC20 address participants will deposit?</span>
         {token && <span className="label-text-alt">{`Name: ${token[0].result} (${token[1].result})`}</span>}
       </div>
       <input value={initialData} onChange={(e)=> handleInput(e.target.value)} type="text" placeholder="0x..." className="input input-bordered w-full max-w" />

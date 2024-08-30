@@ -3,12 +3,20 @@ pragma solidity ^0.8.0;
 
 import "../Launchpad/LaunchpadToken.sol";
 
-contract LaunchpadFactory {
+contract LaunchpadFactory is Ownable {
     address[] public allLaunchpads;
+
+    function getAllLaunchpadsLength() external view returns (uint256) {
+        return allLaunchpads.length;
+    }
     address public implementationContract;
     event LaunchpadDeployed(address proxy, string name, address projectOwner);
 
     constructor(address _implementation) {
+        implementationContract = _implementation;
+    }
+
+    function updateImplementation(address _implementation) external {
         implementationContract = _implementation;
     }
 

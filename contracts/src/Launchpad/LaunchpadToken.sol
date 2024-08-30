@@ -179,6 +179,7 @@ contract LaunchpadERC20 is Ownable, Pausable {
         noOfTiers = _noOfTiers;
         require(_projectOwner != address(0), "Zero project owner address");
         projectOwner = _projectOwner;
+        initOwnership(projectOwner);
         require(_tokenAddress != address(0), "Zero token address");
         tokenAddress = _tokenAddress;
         ERC20Interface = IERC20(tokenAddress);

@@ -1,3 +1,4 @@
+import { log } from 'console';
 import hre from 'hardhat';
 import { ethers } from 'hardhat';
 
@@ -24,13 +25,14 @@ async function main() {
 	// deploy the minimal factory contract
 	const launchpadFactory = await LaunchpadFactory.deploy(implementationAddress);
 	await launchpadFactory.waitForDeployment();
-	const minimalProxyAddress = await launchpadFactory.getAddress();
+	const factoryAddress = await launchpadFactory.getAddress();
 
-	console.log('Minimal proxy factory contract ', minimalProxyAddress);
+	console.log('Minimal proxy factory contract ', factoryAddress);
 	console.log(
 		'Check implementationContract',
 		await launchpadFactory.implementationContract()
 	);
+	log('length', await launchpadFactory.getAllLaunchpadsLength());
 
 	// call the deploy clone function on the minimal factory contract and pass parameters
 	const deployCloneContract = await launchpadFactory.deployClone(
@@ -45,8 +47,8 @@ async function main() {
 	);
 	const receipt = await deployCloneContract.wait();
 
-	if ('args' in receipt!.logs[0]) {
-		console.log((receipt!.logs[0] as any).args);
+	if ('args' in receipt!.logs[1]) {
+		console.log((receipt!.logs[1] as any).args);
 	} else {
 		console.log('No args property found in the log');
 	}
