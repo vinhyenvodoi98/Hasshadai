@@ -1,26 +1,28 @@
-# Hasshadai: A Revolutionary Launchpad for Edu Blockchain Project
-We realized that the current problem with launchpads is that users don't really understand the projects they will buy into. Launchpads often prioritize their token holders to participate, and that leads to people who really see the vision of the project not being able to participate in the launchpad. I wanted to create a launchpad that would prioritize people who really understand and believe in to the project. 
+# Hasshadai: The Next-Generation Launchpad for Educational Blockchain Projects
 
-We created the learn-tier as a mandatory part for many people. They will read the project documents and then answer the questions. If they answer all the questions correctly, they will have the right to participate in buying tokens from the project.
+### Addressing the Challenge
+Current launchpads often fall short in fostering true understanding among participants. They tend to favor token holders over those who genuinely grasp and support the project’s vision, leaving knowledgeable and passionate individuals sidelined. Hasshadai is designed to change this dynamic by prioritizing informed participants who deeply understand and believe in the projects they are investing in.
 
-## Key Features of Hasshadai
+### Our Unique Approach
+At Hasshadai, we’ve introduced the **Learn-Tier** system, a mandatory educational process where participants engage with project documentation and complete a series of questions. Only those who demonstrate full comprehension by answering all questions correctly earn the right to participate in the token sale.
 
-- **Edu Blockchain Integration:** Hasshadai leverages the power of the edu blockchain, ensuring a secure and transparent environment for educational projects.
-- **Open Campus OIDC Verification:** To maintain the integrity of the platform, Hasshadai utilizes Open Campus OIDC (OpenID Connect) for user verification. This ensures that only authenticated users can participate in token sales.
-- **Targeted Token Sales:** Unlike traditional launchpads, Hasshadai focuses on selling tokens to individuals who demonstrate a thorough understanding of the projects. This approach helps to create a more engaged and informed investor base.
+### Key Features of Hasshadai
 
-## Benefits of Using Hasshadai
+- **Edu Blockchain Integration:** Harnessing the power of blockchain to create a secure, transparent, and immutable environment for educational projects.
+- **Open Campus OIDC Verification:** By utilizing OpenID Connect (OIDC) for user authentication, Hasshadai ensures that only verified and authentic users can participate in token sales, enhancing platform integrity.
+- **Targeted Token Sales:** Unlike traditional launchpads, Hasshadai focuses on selling tokens to individuals who prove their understanding of the project, fostering a community of engaged and informed investors.
+- **Smart Contract Bootstrapping:** Hasshadai offers an interactive interface for building smart contracts. Users can select the contract type (e.g., ERC20 or ERC721), set parameters such as token name, symbol, and premint amount, and generate the complete smart contract code.
 
-- **Quality Projects:** By focusing on educational blockchain initiatives, Hasshadai attracts high-quality projects that have the potential to revolutionize the education sector.
-- **Informed Community:** The platform's unique approach ensures that tokens are sold to knowledgeable individuals, fostering a community of well-informed supporters and investors.
-- **Enhanced Security:** With Open Campus OIDC verification, Hasshadai provides an additional layer of security, reducing the risk of fraudulent activities.
+### Benefits of Using Hasshadai
 
-## How Hasshadai Works
+- **Curated Quality Projects:** Hasshadai’s focus on educational blockchain initiatives ensures that only high-potential, impactful projects are listed, making it a hub for revolutionary educational advancements.
+- **Informed Investor Base:** Our unique learn-to-earn approach ensures that participants are well-informed, creating a community of knowledgeable supporters and reducing speculative investments.
+- **Enhanced Security:** Through Open Campus OIDC verification, Hasshadai adds an extra layer of security, minimizing risks of fraud and ensuring a trustworthy environment for all users.
 
-1. Project Submission: Edu blockchain projects apply to be listed on Hasshadai.
-2. Verification Process: The Hasshadai team reviews and verifies the legitimacy and potential of the submitted projects.
-3. User Registration: Interested participants register on the platform and complete the Open Campus OIDC verification process.
-4. Project Understanding Test: Users are required to demonstrate their understanding of the project before being eligible to participate in the token sale.
-5. Token Sale: Qualified users can participate in the token sale for projects they understand and support.
+### How Hasshadai Works
 
-Hasshadai represents a significant step forward in the world of blockchain launchpads, particularly in the educational sector. By combining the power of blockchain technology with a focus on informed participation, Hasshadai is poised to become a driving force in the development and adoption of innovative educational blockchain projects.
+1. **Project Submission:** Educational blockchain projects apply to be featured on Hasshadai.
+2. **Project Verification:** The Hasshadai team rigorously reviews each submission, ensuring legitimacy and potential before approval.
+3. **User Registration:** Interested participants register on the platform and undergo Open Campus OIDC verification.
+4. **Educational Engagement:** Users must demonstrate their understanding of the project by passing a knowledge test before they are allowed to participate in the token sale.
+5. **Token Sale:** Only users who successfully complete the test can join the token sale, ensuring that all participants are truly aligned with the project’s vision.
