@@ -1,13 +1,19 @@
-import { Answer, Question } from "@/interfaces/project";
-import { ChangeEvent, Dispatch, SetStateAction, useState } from "react"
+import { ChangeEvent, useState } from "react"
+import CustomToastWithLink from "./CustomToastWithLink"
+import { toast } from "react-toastify"
+import { useWriteContract } from 'wagmi'
+import LaunchPadAbi from '../../../contracts/out/LaunchpadToken.sol/LaunchpadERC20.json'
 
 interface WhitelistInterface {
+  launchPadContract: string
+  tierIndex: number,
   whitelist: string[],
-  setWhitelist: Dispatch<SetStateAction<string[]>>
+  setWhitelist: (tierIndex: number, whitelistInput:string) => void
 }
 
-export default function Whitelist({whitelist, setWhitelist}: WhitelistInterface) {
+export default function Whitelist({launchPadContract, tierIndex, whitelist, setWhitelist}: WhitelistInterface) {
   const [whitelistInput, setWhitelistInput] = useState("")
+  const { writeContract} = useWriteContract()
   const handleOpenModal = () => {
     // eslint-disable-next-line
     // @ts-ignore
@@ -16,10 +22,33 @@ export default function Whitelist({whitelist, setWhitelist}: WhitelistInterface)
 
   const handleAddWhitelist = () => {
     if (!whitelist.includes(whitelistInput)) {
-      setWhitelist((prevItems) => [whitelistInput, ...prevItems]);
+      setWhitelist(tierIndex, whitelistInput);
       setWhitelistInput(""); // Clear the input field after adding
     }
   };
+
+
+  const handleSubmit = async () => {
+    const tier = Array(whitelist.length).fill(tierIndex+1)
+    writeContract({
+      abi: LaunchPadAbi.abi,
+      address: launchPadContract as `0x${string}`,
+      functionName: 'updateUsers',
+      args: [
+        whitelist,
+        tier
+      ],
+    },{
+      onSuccess (data:any) {
+        toast.success(
+          CustomToastWithLink(data)
+        );
+      },
+      onError(error:any) {
+        console.log("error",error)
+      },
+    })
+  }
 
   return (
     <div>
@@ -48,8 +77,9 @@ export default function Whitelist({whitelist, setWhitelist}: WhitelistInterface)
           }
 
           <div className="modal-action">
+            <button onClick={() => handleSubmit()} className="btn btn-accent w-32">Save</button>
             <form method="dialog">
-              <button className="btn btn-accent w-32">Save</button>
+              <button className="btn w-32 btn-neutral">Close</button>
             </form>
           </div>
         </div>
