@@ -19,6 +19,16 @@ export interface Contact {
   name: string;
   value: string;
 }
+
+export interface Tier {
+  tier: number;
+  maxTierCap: number;
+  minUserCap: number;
+  maxUserCap: number;
+  tierUsers: number;
+  whiteList: string[];
+}
+
 export interface Project {
   _id?: string;
   creator: string;
@@ -35,6 +45,7 @@ export interface Project {
   maxCap: number;
   numberOfTier: number;
   launchPadContract: string;
+  tiers: Tier[]
   createdAt?: Date;
   updatedAt?: Date;
 }

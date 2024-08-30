@@ -4,7 +4,7 @@ import TokenCheck from "./TokenCheck";
 import { useSimulateContract, useWriteContract } from 'wagmi'
 import FactoryAbi from '../../../contracts/out/Factory.sol/LaunchpadFactory.json'
 import { toast } from "react-toastify";
-import Link from "next/link";
+import CustomToastWithLink from "./CustomToastWithLink";
 
 interface CreateLaunchPadContractInterface {
   name: string,
@@ -66,13 +66,6 @@ export default function CreateLaunchPadContract({
       1
     ],
   })
-
-  const CustomToastWithLink = (tx:string) => (
-    <div>
-      <p>Transaction has been created successfully:</p>
-      <Link target="_blank" href={`https://opencampus-codex.blockscout.com/tx/${tx}`}>Details</Link>
-    </div>
-  );
 
   useEffect(() => {
     if(data?.result && loadLaunchpadAddress){

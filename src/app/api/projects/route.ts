@@ -25,6 +25,7 @@ const POST = async (req: NextRequest) => {
         maxCap: data.maxCap,
         numberOfTier: data.numberOfTier,
         launchPadContract: data.launchPadContract,
+        whitelist: data.whitelist,
       });
       return NextResponse.json({ message: 'Project added successfully', projectId: result.insertedId }, { status: 201 })
     } catch (error) {
@@ -104,6 +105,7 @@ const PUT = async (req: NextRequest) => {
           maxCap: data.maxCap,
           numberOfTier: data.numberOfTier,
           launchPadContract: data.launchPadContract,
+          whitelist: data.whitelist,
         }});
         if (result && result.matchedCount === 0) {
           return NextResponse.json({ error: 'No document found with the provided ID' }, { status: 404 })

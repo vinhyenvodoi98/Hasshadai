@@ -1,10 +1,11 @@
-import { Contact, LearnTier, Project, Question } from "@/interfaces/project";
+import { Contact, LearnTier, Project, Question, Tier } from "@/interfaces/project";
 import Contacts from "./Contacts";
 import UploadImage from "./UploadImage";
 import { useAccount } from "wagmi";
 import { useState } from "react";
 import LearnTierComponent from "./LearnTierComponent";
 import CreateLaunchPadContract from "./CreateLaunchpadContract";
+import UpdateTier from "./UpdateTier";
 
 interface ProjectFormInterface {
   initialData?: {
@@ -21,6 +22,7 @@ interface ProjectFormInterface {
     numberOfTier: number
     maxCap: number
     launchPadContract: string
+    tiers: Tier[]
   } | null;
   handleSubmit: (project: Project) => void;
 }
@@ -39,6 +41,14 @@ export default function ProjectForm({ initialData, handleSubmit }: ProjectFormIn
   const [maxCap, setMaxCap] = useState(initialData?.maxCap || 0)
   const [numberOfTier, setNumberOfTier] = useState(initialData?.numberOfTier || 0)
   const [launchPadContract, setLaunchPadContract] = useState<string>(initialData?.launchPadContract || "")
+  const [tiers, setTiers] = useState<Tier[]>(initialData?.tiers || [{
+    tier:0,
+    maxTierCap: 0,
+    maxUserCap: 0,
+    minUserCap: 0,
+    tierUsers: 0,
+    whiteList:[]
+  }])
   const [questions, setQuestions] = useState<Question[]>(initialData?.learnTier.questions ||[
     {
       question: '',
@@ -100,6 +110,7 @@ export default function ProjectForm({ initialData, handleSubmit }: ProjectFormIn
       maxCap,
       numberOfTier,
       launchPadContract,
+      tiers
     } as Project)
   }
 
@@ -130,29 +141,31 @@ export default function ProjectForm({ initialData, handleSubmit }: ProjectFormIn
           </div>
           <LearnTierComponent documentLink={document} setDocument={setDocument} questions={questions} setQuestions={setQuestions}/>
         </div>
-
-        <div>
-          <div className="label">
-            <span className="label-text">Create LaunchPad</span>
+        {
+          launchPadContract.length === 0 &&
+          <div>
+            <div className="label">
+              <span className="label-text">Create LaunchPad</span>
+            </div>
+            <CreateLaunchPadContract
+              name={name}
+              maxCap={maxCap}
+              setMaxCap={setMaxCap}
+              startAt={startAt}
+              setStartAt={setStartAt}
+              endAt={endAt}
+              setEndAt={setEndAt}
+              noOfTier={numberOfTier}
+              setNoOfTier={setNumberOfTier}
+              projectOwner={ownerAddress}
+              setProjectOwner={setOwnerAddress}
+              tokenAddress={tokenAddress}
+              setTokenAddress={setTokenAddress}
+              launchPadContract={launchPadContract}
+              setLaunchPadContract={setLaunchPadContract}
+              />
           </div>
-          <CreateLaunchPadContract
-            name={name}
-            maxCap={maxCap}
-            setMaxCap={setMaxCap}
-            startAt={startAt}
-            setStartAt={setStartAt}
-            endAt={endAt}
-            setEndAt={setEndAt}
-            noOfTier={numberOfTier}
-            setNoOfTier={setNumberOfTier}
-            projectOwner={ownerAddress}
-            setProjectOwner={setOwnerAddress}
-            tokenAddress={tokenAddress}
-            setTokenAddress={setTokenAddress}
-            launchPadContract={launchPadContract}
-            setLaunchPadContract={setLaunchPadContract}
-            />
-        </div>
+        }
 
         <label className="form-control w-full max-w">
           <div className="label">
@@ -160,6 +173,16 @@ export default function ProjectForm({ initialData, handleSubmit }: ProjectFormIn
           </div>
           <input value={launchPadContract.length > 0 ? launchPadContract : "You can see address after deploy"} type="text" disabled className="input input-bordered w-full max-w" />
         </label>
+
+        {
+          launchPadContract.length > 0 &&
+          <div>
+            <div className="label">
+              <span className="label-text">Update Tier</span>
+            </div>
+            <UpdateTier tiers={tiers} setTiers={setTiers} launchPadContract={launchPadContract}/>
+          </div>
+        }
 
         <div className='my-4'>
           <button

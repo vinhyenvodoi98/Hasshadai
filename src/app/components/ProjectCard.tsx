@@ -22,6 +22,7 @@ export default function ProjectCard({ project }: ProjectCardInterface) {
           height={128}
           width={128}
           alt='project image'
+          className='object-cover'
         />
         <div className='col-span-2 flex flex-col justify-end h-full'>
           {project.startAt > new Date() ? (
