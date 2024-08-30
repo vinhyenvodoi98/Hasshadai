@@ -25,7 +25,7 @@ const POST = async (req: NextRequest) => {
         maxCap: data.maxCap,
         numberOfTier: data.numberOfTier,
         launchPadContract: data.launchPadContract,
-        whitelist: data.whitelist,
+        tiers: data.tiers,
       });
       return NextResponse.json({ message: 'Project added successfully', projectId: result.insertedId }, { status: 201 })
     } catch (error) {
