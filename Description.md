@@ -1,3 +1,5 @@
+[![YouTube Video](https://img.youtube.com/vi/8vA9lJFJ0Qk/0.jpg)](https://www.youtube.com/watch?v=8vA9lJFJ0Qk)
+
 # Hasshadai: The Next-Generation Launchpad for Educational Blockchain Projects
 
 ### Addressing the Challenge
