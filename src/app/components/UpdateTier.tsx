@@ -58,17 +58,11 @@ export default function  UpdateTier({launchPadContract, setTiers, tiers}: Update
   };
 
   const handleSubmit = () => {
-    console.log(tiers)
     const maxTierCaps: number[] = tiers.map(item => item.maxTierCap);
     const maxUserCaps: number[] = tiers.map(item => item.maxUserCap);
     const minUserCaps: number[] = tiers.map(item => item.minUserCap);
-    const tierlist: number[] = tiers.map(item => item.tier);
+    const tierlist: number[] = tiers.map(item => item.tier + 1);
     const tierUsers: number[] = tiers.map(item => item.tierUsers);
-    console.log(tierlist,
-      maxTierCaps,
-      minUserCaps,
-      maxUserCaps,
-      tierUsers)
 
     writeContract({
       abi: LaunchPadAbi.abi,
