@@ -105,12 +105,12 @@ const PUT = async (req: NextRequest) => {
           maxCap: data.maxCap,
           numberOfTier: data.numberOfTier,
           launchPadContract: data.launchPadContract,
-          whitelist: data.whitelist,
+          tiers: data.tiers,
         }});
         if (result && result.matchedCount === 0) {
           return NextResponse.json({ error: 'No document found with the provided ID' }, { status: 404 })
         } else {
-            return NextResponse.json({ message: 'Document updated successfully' }, { status: 200 })
+          return NextResponse.json({ message: 'Document updated successfully' }, { status: 200 })
         }
       } else {
         return NextResponse.json({ message: 'Invalid query parameters' }, { status: 400 })

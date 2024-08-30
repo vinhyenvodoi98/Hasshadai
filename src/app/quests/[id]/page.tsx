@@ -28,7 +28,6 @@ export default function Quests() {
     }
   }, [authState.idToken]);
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
