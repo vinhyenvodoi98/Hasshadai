@@ -28,3 +28,6 @@ At Hasshadai, we’ve introduced the **Learn-Tier** system, a mandatory educatio
 3. **User Registration:** Interested participants register on the platform and undergo Open Campus OIDC verification.
 4. **Educational Engagement:** Users must demonstrate their understanding of the project by passing a knowledge test before they are allowed to participate in the token sale.
 5. **Token Sale:** Only users who successfully complete the test can join the token sale, ensuring that all participants are truly aligned with the project’s vision.
+
+
+The factory contract address is at: `0xec462068a2C126c5577bF985C1D255b8143792Ad`
