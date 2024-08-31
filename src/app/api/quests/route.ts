@@ -60,7 +60,7 @@ const POST = async (req: NextRequest) => {
                 {_id: new ObjectId(id)},
                 { $addToSet: { 'tiers.0.whiteList': decodedToken.eth_address } } // Add to the whitelist array if not already present
               );
-              return NextResponse.json({ message: 'Congratulations you are on the write list' }, { status: 200 })
+              return NextResponse.json({ message: 'Congratulations you are in the whitelist' }, { status: 200 })
             } else{
               return NextResponse.json({ message: `Its a pity you only answered ${correctCount} questions correctly.` }, { status: 200 })
             }
