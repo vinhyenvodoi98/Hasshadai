@@ -65,13 +65,20 @@ async function readLaunchpad() {
 		'LaunchpadFactory',
 		factoryAddress
 	);
-	log('length', await launchpadFactory.getAllLaunchpadsLength());
+	const launchpadLen = await launchpadFactory.getAllLaunchpadsLength();
 	// get deployed proxy address
-	const proxyAddress = await launchpadFactory.allLaunchpads(0);
+	const proxyAddress = await launchpadFactory.allLaunchpads(
+		launchpadLen - BigInt(1)
+	);
 	console.log('Proxy contract ', proxyAddress);
 
-	const proxy = await hre.ethers.getContractAt('LaunchpadERC20', proxyAddress);
-	console.log('Launchpad owner ', await proxy.owner()); // get initialized boolean == true
+	const launchpadAddr = '0x50004a112B503E2BA5bf7A25AaD9EAf068d1C47D';
+	const proxy = await hre.ethers.getContractAt('LaunchpadERC20', launchpadAddr);
+	console.log('Launchpad owner ', await proxy.owner());
+	const userDetail = await proxy.userDetails(
+		'0xf98f95d1Fa6a8a26efc15519Fac39754311B7a4A'
+	);
+	console.log(userDetail);
 }
 readLaunchpad().catch((error) => {
 	console.error(error);
