@@ -95,7 +95,27 @@ async function readStartTime() {
 	console.log(timestampBefore, saleStart, timestampBefore > saleStart);
 }
 
-readStartTime().catch((error) => {
+async function updateTime() {
+	const blockNumBefore = await ethers.provider.getBlockNumber();
+	const blockBefore = await ethers.provider.getBlock(blockNumBefore);
+	const timestampBefore = blockBefore!.timestamp;
+
+	const launchpadAddr = '0x50004a112B503E2BA5bf7A25AaD9EAf068d1C47D';
+	const launchpad = await hre.ethers.getContractAt(
+		'LaunchpadERC20',
+		launchpadAddr
+	);
+
+	(await launchpad.updateStartTime(timestampBefore)).wait();
+	(await launchpad.updateEndTime(timestampBefore + 15 * 24 * 3600)).wait();
+
+	const saleStart = await launchpad.saleStart();
+	const saleEnd = await launchpad.saleEnd();
+
+	console.log(saleStart, saleEnd, timestampBefore);
+}
+
+updateTime().catch((error) => {
 	console.error(error);
 	process.exitCode = 1;
 });
