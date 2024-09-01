@@ -72,7 +72,6 @@ export default function IDODetails() {
 		},
 	});
 
-
 	return (
 		<div>
 			<div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
@@ -215,10 +214,27 @@ export default function IDODetails() {
 										Join Learn Tier
 									</button>
 								</Link>
-								<Link href={``}>
-									<button className="btn btn-primary w-40" disabled={!address}>Deposit</button>
+								<Link
+									href={``}
+									className="tooltip"
+									data-tip={
+										!address
+											? 'Please connect first!'
+											: !(userDetail?.[0]?.result as Array<BigInt>)?.[0]
+											? 'You are not whitelisted'
+											: undefined
+									}
+								>
+									<button
+										className="btn btn-primary w-40"
+										disabled={
+											!address ||
+											!(userDetail?.[0]?.result as Array<BigInt>)?.[0]
+										}
+									>
+										Deposit
+									</button>
 								</Link>
-
 								{loading ? (
 									<div className="w-20 h-8 skeleton"></div>
 								) : new Date(project?.startAt as any).getTime() <
