@@ -11,6 +11,7 @@ import { shortenAddress } from '@/app/utils/addresses';
 import { useAccount, useReadContracts } from 'wagmi';
 import ERC20Abi from '../../../../contracts/out/ERC20.sol/ERC20.json';
 import LaunchPadAbi from '../../../../contracts/out/LaunchpadToken.sol/LaunchpadERC20.json';
+import Deposit from '@/app/components/Deposit';
 
 const CountDown = dynamic(() => import('@/app/components/Countdown'), {
 	ssr: false,
@@ -56,20 +57,6 @@ export default function IDODetails() {
 				functionName: 'decimals',
 			},
 		],
-	});
-
-	const { data: userDetail } = useReadContracts({
-		contracts: [
-			{
-				address: project?.launchPadContract as `0x${string}`,
-				abi: LaunchPadAbi.abi as any,
-				functionName: 'userDetails',
-				args: [address || ''],
-			},
-		],
-		query: {
-			enabled: !!address,
-		},
 	});
 
 	return (
@@ -214,27 +201,12 @@ export default function IDODetails() {
 										Join Learn Tier
 									</button>
 								</Link>
-								<Link
-									href={``}
-									className="tooltip"
-									data-tip={
-										!address
-											? 'Please connect first!'
-											: !(userDetail?.[0]?.result as Array<BigInt>)?.[0]
-											? 'You are not whitelisted'
-											: undefined
-									}
-								>
-									<button
-										className="btn btn-primary w-40"
-										disabled={
-											!address ||
-											!(userDetail?.[0]?.result as Array<BigInt>)?.[0]
-										}
-									>
-										Deposit
-									</button>
-								</Link>
+								<Deposit
+									launchPadContract={project?.launchPadContract}
+									decimals={token?.[2].result as number}
+									tokenSymbol={token?.[1].result as string}
+                  tokenAddr={project?.tokenAddress}
+								/>
 								{loading ? (
 									<div className="w-20 h-8 skeleton"></div>
 								) : new Date(project?.startAt as any).getTime() <
