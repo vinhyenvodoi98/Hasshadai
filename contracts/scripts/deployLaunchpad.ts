@@ -78,9 +78,24 @@ async function readLaunchpad() {
 	const userDetail = await proxy.userDetails(
 		'0xf98f95d1Fa6a8a26efc15519Fac39754311B7a4A'
 	);
+
 	console.log(userDetail);
 }
-readLaunchpad().catch((error) => {
+
+async function readStartTime() {
+	const blockNumBefore = await ethers.provider.getBlockNumber();
+	const blockBefore = await ethers.provider.getBlock(blockNumBefore);
+	const timestampBefore = blockBefore!.timestamp;
+
+	const launchpadAddr = '0x50004a112B503E2BA5bf7A25AaD9EAf068d1C47D';
+	const proxy = await hre.ethers.getContractAt('LaunchpadERC20', launchpadAddr);
+
+	const saleStart = await proxy.saleStart();
+
+	console.log(timestampBefore, saleStart, timestampBefore > saleStart);
+}
+
+readStartTime().catch((error) => {
 	console.error(error);
 	process.exitCode = 1;
 });
