@@ -151,7 +151,7 @@ export default function Deposit({
 						<button
 							onClick={() => handleSubmit()}
 							className="btn btn-accent w-32"
-							disabled={!decimals}
+							disabled={!decimals || isPending}
 						>
 							Deposit
 						</button>
