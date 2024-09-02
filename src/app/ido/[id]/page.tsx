@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Project } from '@/interfaces/project';
 import { shortenAddress } from '@/app/utils/addresses';
-import { useAccount, useReadContracts } from 'wagmi';
+import { useReadContracts } from 'wagmi';
 import ERC20Abi from '../../../../contracts/out/ERC20.sol/ERC20.json';
 import LaunchPadAbi from '../../../../contracts/out/LaunchpadToken.sol/LaunchpadERC20.json';
 import Deposit from '@/app/components/Deposit';
@@ -19,7 +19,6 @@ const CountDown = dynamic(() => import('@/app/components/Countdown'), {
 
 export default function IDODetails() {
 	const { id } = useParams<{ id: string }>();
-	const { address } = useAccount();
 
 	const [project, setProject] = useState<Project | null>(null);
 	const [loading, setLoading] = useState<boolean>(true);
@@ -55,6 +54,21 @@ export default function IDODetails() {
 				address: project?.tokenAddress as `0x${string}`,
 				abi: ERC20Abi.abi as any,
 				functionName: 'decimals',
+			},
+		],
+	});
+
+	const { data: launchpad } = useReadContracts({
+		contracts: [
+			{
+				address: project?.launchPadContract as `0x${string}`,
+				abi: LaunchPadAbi.abi as any,
+				functionName: 'maxCap',
+			},
+			{
+				address: project?.launchPadContract as `0x${string}`,
+				abi: LaunchPadAbi.abi as any,
+				functionName: 'totalBUSDReceivedInAllTier',
 			},
 		],
 	});
@@ -169,7 +183,7 @@ export default function IDODetails() {
 										width={32}
 										alt="raise token"
 									/>
-									<h1 className="text-white">{project?.maxCap} USDT</h1>
+									<h1 className="text-white">{`${launchpad?.[0].result} ${token?.[1].result}`}</h1>
 								</div>
 							</div>
 							<div className="bg-base-100 w-40 h-12 rounded-lg flex justify-center items-center">
@@ -179,8 +193,17 @@ export default function IDODetails() {
 						<div className="divider"></div>
 						<div className="grid gap-8">
 							<div className="flex justify-between text-white font-bold">
-								<div>0 / {project?.maxCap} USDT</div>
-								<div>Progress 0%</div>
+								<div>{`${launchpad?.[1].result} / ${launchpad?.[0].result} ${token?.[1].result}`}</div>
+								<div>
+									{launchpad?.[0] &&
+										launchpad?.[1] &&
+										`Progress ${
+											Number(
+												((launchpad?.[1].result as bigint) * BigInt(10000)) /
+													(launchpad?.[0].result as bigint)
+											) / 100
+										}%`}
+								</div>
 							</div>
 							<progress
 								className="progress progress-primary w-full h-4 rounded-full"
@@ -205,7 +228,7 @@ export default function IDODetails() {
 									launchPadContract={project?.launchPadContract}
 									decimals={token?.[2].result as number}
 									tokenSymbol={token?.[1].result as string}
-                  tokenAddr={project?.tokenAddress}
+									tokenAddr={project?.tokenAddress}
 								/>
 								{loading ? (
 									<div className="w-20 h-8 skeleton"></div>
@@ -288,7 +311,7 @@ export default function IDODetails() {
 						<div className="divider"></div>
 						<div className="flex justify-between">
 							<p>TOKEN FOR SALE</p>
-							<p className="text-white">{project?.maxCap}</p>
+							<p className="text-white">{`${launchpad?.[0].result}`}</p>
 						</div>
 						<div className="divider"></div>
 						<div className="flex justify-between">
@@ -305,7 +328,7 @@ export default function IDODetails() {
 						<div className="divider"></div>
 						<div className="flex justify-between">
 							<p>DECIMALS</p>
-							<p className="text-white">18</p>
+							<p className="text-white">{`${token?.[2].result}`}</p>
 						</div>
 					</div>
 				</div>
